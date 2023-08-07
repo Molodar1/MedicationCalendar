@@ -1,0 +1,2 @@
+rootProject.name='MedicationCalendar'
+include ':app'
