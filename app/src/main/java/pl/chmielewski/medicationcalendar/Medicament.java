@@ -11,30 +11,4 @@ public class Medicament {
     private String doseUnit;
     private int dailyDosingFrequency;
     private String additionalMedicamentInfo;
-
-
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public double getDoseOfMedicament() {
-//        return doseOfMedicament;
-//    }
-//
-//    public String getDoseUnit() {
-//        return doseUnit;
-//    }
-//
-//    public int getDailyDosingFrequency() {
-//        return dailyDosingFrequency;
-//    }
-//
-//    public String getAdditionalMedicamentInfo() {
-//        return additionalMedicamentInfo;
-//    }
-
-    @Override
-    public String toString() {
-        return name;
-    }
 }
