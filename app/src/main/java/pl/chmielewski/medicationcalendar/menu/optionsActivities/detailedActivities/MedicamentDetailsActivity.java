@@ -35,10 +35,9 @@ public class MedicamentDetailsActivity extends AppCompatActivity {
 
         // Pobieramy identyfikator leku z intencji
          medicamentId = (Integer)getIntent().getExtras().get(EXTRA_MEDICAMENTID);
-        //Medicament medicament = Medicament.medicaments[medicamentId];
         SQLiteOpenHelper medicationCalendarDatabaseHelper = new MedicationCalendarDatabaseHelper(this);
 
-        //Pobieranie całego rekordu o id z medicamentId przesyłąnego z poprzedniej aktywności z bazy danych
+        //Pobieranie całego rekordu o id z medicamentId przesyłanego z poprzedniej aktywności z bazy danych
         try{
             SQLiteDatabase db=medicationCalendarDatabaseHelper.getReadableDatabase();
             Cursor cursor = db.query("MEDICAMENT",new String[]{

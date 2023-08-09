@@ -52,8 +52,6 @@ public class AddMedicamentActivity extends AppCompatActivity {
          spinnerDoseUnit=findViewById(R.id.spinnerDose);
          spinnerDailyDosingFrequency=findViewById(R.id.spinnerDailyDosingFrequency);
          editTextAdditionalMedicamentInfo=findViewById(R.id.editTextInsertAdditionalInfoAboutMedicament);
-        MedicationCalendarDatabaseHelper medicationCalendarDatabaseHelper=new MedicationCalendarDatabaseHelper(this);
-        SQLiteDatabase db = medicationCalendarDatabaseHelper.getWritableDatabase();
 
         try {
             Bundle extras = getIntent().getExtras();
