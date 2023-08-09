@@ -140,12 +140,16 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="login">Zaloguj</string>
-    <string name="email">email</string>
-    <string name="password">hasło</string>
+    <string name="email">Email</string>
+    <string name="password">Hasło</string>
     <string name="forgot_password">Zapomniałeś hasła?</string>
     <string name="login_text">Zaloguj</string>
     <string name="createAccountText">Chcesz założyć konto?</string>
     <string name="orText">ALBO</string>
     <string name="logIn">Logowanie</string>
+    <string name="registerText">Rejestracja</string>
+    <string name="alreadyHaveAccountText">Masz już konto?</string>
+    <string name="register">Zarejestruj się</string>
+    <string name="repeatPasswordText">Powtórz hasło</string>
 
 </resources>
