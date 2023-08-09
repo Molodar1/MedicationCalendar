@@ -25,8 +25,6 @@ public class RegistrationActivity extends AppCompatActivity {
     EditText inputEmail,inputPassword,inputConfirmationPassword;
     Button btnRegister;
 
-    private final String emailPattern="[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-
     ProgressDialog progressDialog;
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
@@ -43,18 +41,8 @@ public class RegistrationActivity extends AppCompatActivity {
         inputConfirmationPassword=findViewById(R.id.inputConfirmationPasswordTextView);
         btnRegister=findViewById(R.id.registerButton);
 
-        alreadyHaveAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(RegistrationActivity.this,LoginActivity.class));
-            }
-        });
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PerformAuthentication();
-            }
-        });
+        alreadyHaveAccount.setOnClickListener(view -> startActivity(new Intent(RegistrationActivity.this,LoginActivity.class)));
+        btnRegister.setOnClickListener(view -> PerformAuthentication());
 
 
     }
@@ -67,6 +55,7 @@ public class RegistrationActivity extends AppCompatActivity {
         firebaseAuth=FirebaseAuth.getInstance();
         firebaseUser=firebaseAuth.getCurrentUser();
 
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         if (!email.matches(emailPattern)){
             inputEmail.setError("Podaj poprawny email");
         }else if(password.isEmpty() || password.length()<6){
@@ -79,17 +68,14 @@ public class RegistrationActivity extends AppCompatActivity {
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
 
-        firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()){
-                    progressDialog.dismiss();
-                    sendUserToNextActivity();
-                    Toast.makeText(RegistrationActivity.this,"Rejestracja przebiegła pomyślnie",Toast.LENGTH_SHORT).show();
-                }else {
-                    progressDialog.dismiss();
-                    Toast.makeText(RegistrationActivity.this,""+task.getException(),Toast.LENGTH_SHORT).show();
-                }
+        firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                progressDialog.dismiss();
+                sendUserToNextActivity();
+                Toast.makeText(RegistrationActivity.this,"Rejestracja przebiegła pomyślnie",Toast.LENGTH_SHORT).show();
+            }else {
+                progressDialog.dismiss();
+                Toast.makeText(RegistrationActivity.this,""+task.getException(),Toast.LENGTH_SHORT).show();
             }
         });
         }

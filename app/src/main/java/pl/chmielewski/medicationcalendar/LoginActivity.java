@@ -23,7 +23,6 @@ public class LoginActivity extends AppCompatActivity {
     TextView createNewAccount;
     EditText inputEmail, inputPassword;
     Button btnLogin;
-    private final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     ProgressDialog progressDialog;
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
@@ -40,18 +39,8 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
-        createNewAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, RegistrationActivity.class));
-            }
-        });
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                performLogin();
-            }
-        });
+        createNewAccount.setOnClickListener(view -> startActivity(new Intent(LoginActivity.this, RegistrationActivity.class)));
+        btnLogin.setOnClickListener(view -> performLogin());
     }
 
     private void performLogin() {
@@ -61,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         if (!email.matches(emailPattern)) {
             inputEmail.setError("Podaj poprawny email");
         } else if (password.isEmpty() || password.length() < 6) {
