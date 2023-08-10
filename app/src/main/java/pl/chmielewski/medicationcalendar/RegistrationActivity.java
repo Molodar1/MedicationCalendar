@@ -24,7 +24,6 @@ public class RegistrationActivity extends AppCompatActivity {
     TextView alreadyHaveAccount;
     EditText inputEmail,inputPassword,inputConfirmationPassword;
     Button btnRegister;
-
     ProgressDialog progressDialog;
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
@@ -84,7 +83,7 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private void sendUserToNextActivity() {
-        Intent intent=new Intent(RegistrationActivity.this, HomeActivity.class);
+        Intent intent=new Intent(RegistrationActivity.this, RecylcerShow.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }

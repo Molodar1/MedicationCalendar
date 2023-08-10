@@ -151,5 +151,21 @@
     <string name="alreadyHaveAccountText">Masz już konto?</string>
     <string name="register">Zarejestruj się</string>
     <string name="repeatPasswordText">Powtórz hasło</string>
-
+    <string name="title_activity_home">Home</string>
+    <string name="Dodaj_Artykuły">AddAr</string>
+    <string name="Profil">Profile</string>
+    <string name="Wyloguj">Log Out</string>
+    <string name="Dodaj">Add</string>
+    <string name="Ulubione">Favorite</string>
+    <string name="Leki">Medicine</string>
+    <string name="Artykuły">Article</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="inputMedicamentNameText">Podaj nazwę leku</string>
+    <string name="insertMedicamentDose">Podaj dawkę leku</string>
+    <string name="insertDailyMedicamentInputFrequency">Podaj częstotliwość przyjmowania</string>
 </resources>

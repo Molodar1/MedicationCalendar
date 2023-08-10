@@ -1,40 +1,27 @@
 package pl.chmielewski.medicationcalendar;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
-@Entity(tableName = "MEDICAMENT")
-public class Medicament {
-    @ColumnInfo(name = "MEDICAMENT_ID")
-    @PrimaryKey(autoGenerate = true)
-    int medicamentId;
-    @ColumnInfo(name = "MEDICAMENT_NAME")
+public class Medicament
+{
     private String medicamentName;
-    @ColumnInfo(name = "MEDICAMENT_DOSE")
-    private double medicamentDose;
-    @ColumnInfo(name = "MEDICAMENT_DOSE_UNIT")
-    private String medicamentDoseUnit;
-    @ColumnInfo(name = "MEDICAMENT_DAILY_DOSING_FREQUENCY")
-    private int medicamentDailyDosingFrequency;
-    @ColumnInfo(name = "MEDICAMENT_ADDITIONAL_INFO")
+
+    private String medicamentDose;
+
+    private int medicamentDosingFrequency;
+    private String medicamentFrequencyTimeMeasure;
+
     private String medicamentAdditionalInfo;
 
 
-    public Medicament(String medicamentName, double medicamentDose, String medicamentDoseUnit, int medicamentDailyDosingFrequency, String medicamentAdditionalInfo) {
+    public Medicament(String medicamentName, String medicamentDose, String medicamentFrequencyTimeMeasure, int medicamentDosingFrequency, String medicamentAdditionalInfo) {
         this.medicamentName = medicamentName;
         this.medicamentDose = medicamentDose;
-        this.medicamentDoseUnit = medicamentDoseUnit;
-        this.medicamentDailyDosingFrequency = medicamentDailyDosingFrequency;
+        this.medicamentFrequencyTimeMeasure = medicamentFrequencyTimeMeasure;
+        this.medicamentDosingFrequency = medicamentDosingFrequency;
         this.medicamentAdditionalInfo = medicamentAdditionalInfo;
     }
 
-    public int getMedicamentId() {
-        return medicamentId;
-    }
+    public Medicament() {
 
-    public void setMedicamentId(int medicamentId) {
-        this.medicamentId = medicamentId;
     }
 
     public String getMedicamentName() {
@@ -45,28 +32,28 @@ public class Medicament {
         this.medicamentName = medicamentName;
     }
 
-    public double getMedicamentDose() {
+    public String getMedicamentDose() {
         return medicamentDose;
     }
 
-    public void setMedicamentDose(double medicamentDose) {
+    public void setMedicamentDose(String medicamentDose) {
         this.medicamentDose = medicamentDose;
     }
 
-    public String getMedicamentDoseUnit() {
-        return medicamentDoseUnit;
+    public String getMedicamentFrequencyTimeMeasure() {
+        return medicamentFrequencyTimeMeasure;
     }
 
-    public void setMedicamentDoseUnit(String medicamentDoseUnit) {
-        this.medicamentDoseUnit = medicamentDoseUnit;
+    public void setMedicamentFrequencyTimeMeasure(String medicamentFrequencyTimeMeasure) {
+        this.medicamentFrequencyTimeMeasure = medicamentFrequencyTimeMeasure;
     }
 
-    public int getMedicamentDailyDosingFrequency() {
-        return medicamentDailyDosingFrequency;
+    public int getMedicamentDosingFrequency() {
+        return medicamentDosingFrequency;
     }
 
-    public void setMedicamentDailyDosingFrequency(int medicamentDailyDosingFrequency) {
-        this.medicamentDailyDosingFrequency = medicamentDailyDosingFrequency;
+    public void setMedicamentDosingFrequency(int medicamentDosingFrequency) {
+        this.medicamentDosingFrequency = medicamentDosingFrequency;
     }
 
     public String getMedicamentAdditionalInfo() {
@@ -80,12 +67,13 @@ public class Medicament {
     @Override
     public String toString() {
         return "Medicament{" +
-                "medicamentId=" + medicamentId +
                 ", medicamentName='" + medicamentName + '\'' +
                 ", medicamentDose=" + medicamentDose +
-                ", medicamentDoseUnit='" + medicamentDoseUnit + '\'' +
-                ", medicamentDailyDosingFrequency=" + medicamentDailyDosingFrequency +
+                ", medicamentDoseUnit='" + medicamentFrequencyTimeMeasure + '\'' +
+                ", medicamentDailyDosingFrequency=" + medicamentDosingFrequency +
                 ", medicamentAdditionalInfo='" + medicamentAdditionalInfo + '\'' +
                 '}';
     }
 }
+
+
