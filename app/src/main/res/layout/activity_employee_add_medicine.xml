@@ -40,46 +40,18 @@
         android:scaleType="center"
         />
 
-    <EditText
-        android:id="@+id/editTextInputMedicamentDoseUnit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/editTextInputMedicineDose"
-        android:layout_margin="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="15dp"
-        android:hint="@string/insertDailyMedicamentInputFrequency"
-        android:inputType="text"
-        android:minHeight="48dp"
-        android:scaleType="center" />
-
     <!--Button for adding data to Firebase-->
-    <EditText
-        android:id="@+id/editTextInputMedicamentDailyFrequency"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/editTextInputMedicamentDoseUnit"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:hint="Wpisz koszt leku"
-        android:inputType="numberDecimal"
-        android:minHeight="48dp"
-        android:scaleType="center" />
     <EditText
         android:id="@+id/editTextInputMedicamentAdditionalInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/editTextInputMedicamentDailyFrequency"
+        android:layout_below="@id/editTextInputMedicineDose"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:hint="Wpisz ilość pudełek"
+        android:hint="@string/input_additional_info"
         android:importantForAutofill="no"
         android:inputType="text"
         android:minWidth="10dp"
@@ -93,7 +65,7 @@
         android:layout_margin="10dp"
         android:layout_marginTop="121dp"
         android:layout_marginBottom="10dp"
-        android:text="Dodaj lek"
+        android:text="@string/add_medicament_to_db_btn_text"
         android:textAllCaps="false" />
     <Button
         android:id="@+id/btnCancelSubmitingMedicament"
@@ -103,7 +75,7 @@
         android:layout_margin="10dp"
         android:layout_marginTop="121dp"
         android:layout_marginBottom="10dp"
-        android:text="Cofnij"
+        android:text="@string/return_btn_text"
         android:textAllCaps="false" />
 
 </RelativeLayout>

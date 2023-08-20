@@ -2,26 +2,30 @@ package pl.chmielewski.medicationcalendar;
 
 public class Medicament
 {
+    private String medicamentId;
     private String medicamentName;
 
     private String medicamentDose;
 
-    private int medicamentDosingFrequency;
-    private String medicamentFrequencyTimeMeasure;
-
     private String medicamentAdditionalInfo;
 
 
-    public Medicament(String medicamentName, String medicamentDose, String medicamentFrequencyTimeMeasure, int medicamentDosingFrequency, String medicamentAdditionalInfo) {
+    public Medicament(String medicamentName, String medicamentDose, String medicamentAdditionalInfo) {
         this.medicamentName = medicamentName;
         this.medicamentDose = medicamentDose;
-        this.medicamentFrequencyTimeMeasure = medicamentFrequencyTimeMeasure;
-        this.medicamentDosingFrequency = medicamentDosingFrequency;
         this.medicamentAdditionalInfo = medicamentAdditionalInfo;
     }
 
     public Medicament() {
 
+    }
+
+    public String getMedicamentId() {
+        return medicamentId;
+    }
+
+    public void setMedicamentId(String medicamentId) {
+        this.medicamentId = medicamentId;
     }
 
     public String getMedicamentName() {
@@ -40,22 +44,6 @@ public class Medicament
         this.medicamentDose = medicamentDose;
     }
 
-    public String getMedicamentFrequencyTimeMeasure() {
-        return medicamentFrequencyTimeMeasure;
-    }
-
-    public void setMedicamentFrequencyTimeMeasure(String medicamentFrequencyTimeMeasure) {
-        this.medicamentFrequencyTimeMeasure = medicamentFrequencyTimeMeasure;
-    }
-
-    public int getMedicamentDosingFrequency() {
-        return medicamentDosingFrequency;
-    }
-
-    public void setMedicamentDosingFrequency(int medicamentDosingFrequency) {
-        this.medicamentDosingFrequency = medicamentDosingFrequency;
-    }
-
     public String getMedicamentAdditionalInfo() {
         return medicamentAdditionalInfo;
     }
@@ -69,8 +57,6 @@ public class Medicament
         return "Medicament{" +
                 ", medicamentName='" + medicamentName + '\'' +
                 ", medicamentDose=" + medicamentDose +
-                ", medicamentDoseUnit='" + medicamentFrequencyTimeMeasure + '\'' +
-                ", medicamentDailyDosingFrequency=" + medicamentDosingFrequency +
                 ", medicamentAdditionalInfo='" + medicamentAdditionalInfo + '\'' +
                 '}';
     }

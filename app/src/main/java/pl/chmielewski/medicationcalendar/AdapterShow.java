@@ -36,12 +36,11 @@ public class AdapterShow extends FirebaseRecyclerAdapter<Medicament, AdapterShow
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull myviewholder holder, @SuppressLint("RecyclerView") int position, @NonNull Medicament medicineInfo)
+    protected void onBindViewHolder(@NonNull myviewholder holder, @SuppressLint("RecyclerView") int position, @NonNull Medicament medicament)
     {
-        holder.name.setText(medicineInfo.getMedicamentName());
-        holder.kind.setText(medicineInfo.getMedicamentDose());
-        holder.cost.setText(medicineInfo.getMedicamentFrequencyTimeMeasure());//String.valueOf(
-        holder.inside.setText(medicineInfo.getMedicamentAdditionalInfo());
+        holder.name.setText(medicament.getMedicamentName());
+        holder.dose.setText(medicament.getMedicamentDose());
+        holder.additionalInfo.setText(medicament.getMedicamentAdditionalInfo());
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -51,31 +50,25 @@ public class AdapterShow extends FirebaseRecyclerAdapter<Medicament, AdapterShow
                         .create();
 
                 View myview=dialogPlus.getHolderView();
-                final EditText name=myview.findViewById(R.id.uimgurl);
-                final EditText kind=myview.findViewById(R.id.uname);
-                final EditText cost=myview.findViewById(R.id.ucourse);
-                final EditText inside=myview.findViewById(R.id.uemail);
-                final EditText box =myview.findViewById(R.id.ubox);
+                final EditText edtMedicamentName=myview.findViewById(R.id.edtMedicamentName);
+                final EditText edtMedicamentDose=myview.findViewById(R.id.edtMedicamentDose);
+                final EditText edtAdditionalInfo=myview.findViewById(R.id.edtMedicamentAdditionalInfo);
                 Button submit=myview.findViewById(R.id.btnSubmitMedicamentToFirebase);
 
-                name.setText(medicineInfo.getMedicamentName());
-                kind.setText(medicineInfo.getMedicamentFrequencyTimeMeasure());
-                cost.setText(medicineInfo.getMedicamentDose());
-                inside.setText(medicineInfo.getMedicamentAdditionalInfo());
-                box.setText(String.valueOf(medicineInfo.getMedicamentDosingFrequency()));
+                edtMedicamentName.setText(medicament.getMedicamentName());
+                edtMedicamentDose.setText(medicament.getMedicamentDose());
+                edtAdditionalInfo.setText(medicament.getMedicamentAdditionalInfo());
                 dialogPlus.show();
 
                 submit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Map<String,Object> map=new HashMap<>();
-                        map.put("medicineName",name.getText().toString());
-                        map.put("medicineKind",kind.getText().toString());
-                        map.put("medicineCost",cost.getText().toString());
-                        map.put("medicineInside",inside.getText().toString());
-                        map.put("medicineBoxes", Integer.parseInt(box.getText().toString()));
+                        map.put("medicamentName",edtMedicamentName.getText().toString());
+                        map.put("medicamentDose",edtMedicamentDose.getText().toString());
+                        map.put("medicamentAdditionalInfo",edtAdditionalInfo.getText().toString());
 
-                        FirebaseDatabase.getInstance().getReference().child("MedicineInfo")
+                        FirebaseDatabase.getInstance().getReference().child("Medicament")
                                 .child(getRef(position).getKey()).updateChildren(map)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -107,7 +100,7 @@ public class AdapterShow extends FirebaseRecyclerAdapter<Medicament, AdapterShow
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        FirebaseDatabase.getInstance().getReference().child("MedicineInfo")
+                        FirebaseDatabase.getInstance().getReference().child("Medicament")
                                 .child(getRef(position).getKey()).removeValue();
                     }
                 });
@@ -130,7 +123,7 @@ public class AdapterShow extends FirebaseRecyclerAdapter<Medicament, AdapterShow
 
 //                Intent intent = new Intent(view.getContext(), MedicineShop.class);
 //                intent.putExtra("medicineKey", medicineKey);
-//              //  intent.putExtra("medicineInfo", medicineInfo);
+//              //  intent.putExtra("medicament", medicament);
 //                view.getContext().startActivity(intent);
             }
         });
@@ -147,17 +140,14 @@ public class AdapterShow extends FirebaseRecyclerAdapter<Medicament, AdapterShow
     static class myviewholder extends RecyclerView.ViewHolder
     { CircleImageView img;
         ImageView edit,delete,buy;
-        TextView name,kind,cost,inside,availability,box;
+        TextView name,dose, additionalInfo;
         public myviewholder(@NonNull View itemView)
         {
             super(itemView);
           //  img=(CircleImageView) itemView.findViewById(R.id.img1);
-            name=(TextView)itemView.findViewById(R.id.medicineNameShow);
-            kind=(TextView)itemView.findViewById(R.id.medicineKindShow);
-           cost=(TextView)itemView.findViewById(R.id.medicineCostShow);
-            inside=(TextView)itemView.findViewById(R.id.medicineInsideShow);
-            //box=(TextView)itemView.findViewById(R.id.medicineBoxesShow);
-            availability = itemView.findViewById(R.id.medicineAvailabilityShow); // Inicjalizujemy availability
+            name=(TextView)itemView.findViewById(R.id.txtvMedicamentName);
+            dose =(TextView)itemView.findViewById(R.id.txtvMedicamentDose);
+           additionalInfo =(TextView)itemView.findViewById(R.id.txtvAdditionalInfo);
             edit=(ImageView)itemView.findViewById(R.id.btnEdit);
             delete=(ImageView)itemView.findViewById(R.id.btnDelete);
             buy=(ImageView)itemView.findViewById(R.id.btnBuy);

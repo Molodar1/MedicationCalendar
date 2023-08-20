@@ -18,53 +18,37 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nazwa leku"
-        android:id="@+id/uimgurl"
+        android:hint="Podaj nazwę leku"
+        android:id="@+id/edtMedicamentName"
         android:layout_marginTop="10dp"
         android:textSize="20sp"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Rodzaj"
-        android:id="@+id/uname"
+        android:hint="Podaj dawkę leku"
+        android:id="@+id/edtMedicamentDose"
         android:layout_marginTop="10dp"
         android:textSize="20sp"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Ilość w opakowaniu"
-        android:id="@+id/ucourse"
-        android:layout_marginTop="10dp"
-        android:textSize="20sp"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Cena leku"
-        android:id="@+id/uemail"
-        android:layout_marginTop="10dp"
-        android:textSize="20sp"/>
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Ilość opakowań"
-        android:id="@+id/ubox"
+        android:hint="Podaj dodatkowe informacje"
+        android:id="@+id/edtMedicamentAdditionalInfo"
         android:layout_marginTop="10dp"
         android:textSize="20sp"/>
 
     <Button
+        android:id="@+id/btnSubmitMedicamentToFirebase"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="Update"
-        android:id="@+id/btnSubmitMedicamentToFirebase"
-
-        android:textColor="#fff"
         android:layout_gravity="center"
-        android:textSize="20sp"
+
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        />
+        android:text="Zaaktualizuj lek"
+        android:textColor="#fff"
+        android:textSize="20sp" />
 
 </LinearLayout>

@@ -16,13 +16,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.HashMap;
-
 public class AddMedicament extends AppCompatActivity {
 
     // creating variables for
     // EditText and buttons.
-    private EditText medicineNameEdt, medicineCostEdt, medicineKindEdt,medicineInsideEdt,medicineBoxesEdt;
+    private EditText edtMedicamentName, edtMedicamentDose, edtMedicamentAdditionalInfo;
     private Button sendDatabtn;
     private Button btnBackMedicineAdd;
 
@@ -44,11 +42,9 @@ public class AddMedicament extends AppCompatActivity {
         setContentView(R.layout.activity_employee_add_medicine);
 
         // initializing our edittext and button
-        medicineNameEdt = findViewById(R.id.editTextInputMedicineName);
-        medicineKindEdt = findViewById(R.id.editTextInputMedicineDose);
-        medicineCostEdt = findViewById(R.id.editTextInputMedicamentDailyFrequency);
-        medicineInsideEdt = findViewById(R.id.editTextInputMedicamentDoseUnit);
-        medicineBoxesEdt = findViewById(R.id.editTextInputMedicamentAdditionalInfo);
+        edtMedicamentName = findViewById(R.id.editTextInputMedicineName);
+        edtMedicamentDose = findViewById(R.id.editTextInputMedicineDose);
+        edtMedicamentAdditionalInfo = findViewById(R.id.editTextInputMedicamentAdditionalInfo);
         // below line is used to get the
         // instance of our FIrebase database.
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -65,7 +61,7 @@ public class AddMedicament extends AppCompatActivity {
         btnBackMedicineAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(AddMedicament.this, RecylcerShow.class));
+                startActivity(new Intent(AddMedicament.this, RecyclerShow.class));
             }
         });
         // adding on click listener for our button.
@@ -75,53 +71,40 @@ public class AddMedicament extends AppCompatActivity {
             public void onClick(View v) {
 
                 // getting text from our edittext fields.
-                String name = medicineNameEdt.getText().toString();
-                String kind = medicineKindEdt.getText().toString();
-                String inside = medicineInsideEdt.getText().toString();
-                String cost = medicineCostEdt.getText().toString();//String
-                int box = Integer.parseInt(medicineBoxesEdt.getText().toString());
+                String medicamentName = edtMedicamentName.getText().toString();
+                String medicamentDose = edtMedicamentDose.getText().toString();
+                String medicamentAdditionalInfo = edtMedicamentAdditionalInfo.getText().toString();
                 // String cost =  //Double.parseDouble(costString);
-                if (!TextUtils.isEmpty(name) && !Character.isUpperCase(name.charAt(0))) {
-                    Toast.makeText(AddMedicament.this, "Nazwa leku musi zaczynać się dużą literą.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (TextUtils.isEmpty(name) || TextUtils.isEmpty(kind) || TextUtils.isEmpty(cost) || TextUtils.isEmpty(inside) || TextUtils.isEmpty(medicineBoxesEdt.getText().toString())) {
-                    Toast.makeText(AddMedicament.this, "Proszę uzupełnić wszystkie pola.", Toast.LENGTH_SHORT).show();
-                    return;
+                if (TextUtils.isEmpty(medicamentName) || TextUtils.isEmpty(medicamentDose) ) {
+                    Toast.makeText(AddMedicament.this, "Pola z nazwą i dawką leku muszą zostać uzupełnione.", Toast.LENGTH_SHORT).show();
                 } else {
-                    //  else call the method to add data to our database.
-
-                    addDatatoFirebase(name, kind, inside, cost, box);
+                    addDatatoFirebase(medicamentName, medicamentDose, medicamentAdditionalInfo);
                 }
             }
         });
     }
 
-    private void addDatatoFirebase(String name, String kind, String inside, String  cost,int box) {
+    private void addDatatoFirebase(String medicamentName, String medicamentDose, String medicamentAdditionalInfo) {
         // below 3 lines of code is used to set
         // data in our object class.
-        HashMap<String, Object> medicineHashmap = new HashMap<>();
+       // HashMap<String, Object> medicineHashmap = new HashMap<>();
         //  String medicineId = databaseReference.push().getKey();
-        medicament.setMedicamentName(name);
-        medicament.setMedicamentFrequencyTimeMeasure(kind);
-        medicament.setMedicamentDose(Double.parseDouble(inside));
-        medicament.setMedicamentAdditionalInfo(cost);
-        medicament.setMedicamentDosingFrequency(box);
-        String key = databaseReference.push().getKey();
-        //medicineHashmap.put("key",key);
-        //medicineHashmap.put( key,medicineInfo);
+        String medicamentId = databaseReference.push().getKey();
+        medicament.setMedicamentName(medicamentName);
+        medicament.setMedicamentDose(medicamentDose);
+        medicament.setMedicamentAdditionalInfo(medicamentAdditionalInfo);
+
+        //medicineHashmap.put("medicamentId",medicamentId);
+        //medicineHashmap.put( medicamentId,medicineInfo);
         // we are use add value event listener method
         // which is called with database reference.
-        databaseReference.child(key).setValue(medicament).addOnCompleteListener(new OnCompleteListener<Void>() {
+        databaseReference.child(medicamentId).setValue(medicament).addOnCompleteListener(new OnCompleteListener<Void>() {
   @Override
   public void onComplete(@NonNull Task<Void> task) {
       Toast.makeText(AddMedicament.this, "lek dodany", Toast.LENGTH_SHORT).show();
-      medicineNameEdt.getText().clear();
-      medicineKindEdt.getText().clear();
-      medicineInsideEdt.getText().clear();
-      medicineCostEdt.getText().clear();
-      medicineBoxesEdt.getText().clear();
+      edtMedicamentName.getText().clear();
+      edtMedicamentDose.getText().clear();
+      edtMedicamentAdditionalInfo.getText().clear();
   }
 }
         );

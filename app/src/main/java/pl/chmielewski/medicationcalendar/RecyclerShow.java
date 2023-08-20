@@ -19,11 +19,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 
-public class RecylcerShow extends AppCompatActivity
+public class RecyclerShow extends AppCompatActivity
 {
     RecyclerView recview;
     AdapterShow adapter;
-    SearchView searchViewa;
+    SearchView searchView;
 FloatingActionButton fb;
 
     @Override
@@ -31,7 +31,7 @@ FloatingActionButton fb;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recylcer_show);
         setTitle("");
-        searchViewa = findViewById(R.id.searchView);
+        searchView = findViewById(R.id.searchView);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationViewEmployee);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -39,11 +39,11 @@ FloatingActionButton fb;
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int itemId = item.getItemId();
                 if(itemId == R.id.action_dodaj){
-                    startActivity(new Intent(RecylcerShow.this, AddMedicament.class));
+                    startActivity(new Intent(RecyclerShow.this, AddMedicament.class));
                     return true;
                 } else if (itemId == R.id.action_logout) {
                     FirebaseAuth.getInstance().signOut();
-                    Intent intent = new Intent(RecylcerShow.this, LoginActivity.class);
+                    Intent intent = new Intent(RecyclerShow.this, LoginActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     return true;
@@ -51,8 +51,8 @@ FloatingActionButton fb;
                     return false;
             }
         });
-        searchViewa.clearFocus();
-        searchViewa.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+        searchView.clearFocus();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
     @Override
     public boolean onQueryTextSubmit(String s){
         return false;
@@ -68,7 +68,7 @@ FloatingActionButton fb;
 
         String query = s.toUpperCase(); // Konwertujemy zapytanie na małe litery
 
-        Query filteredQuery = reference.orderByChild("medicineName")
+        Query filteredQuery = reference.orderByChild("medicamentName")
                 .startAt(query)
                 .endAt(query + "\uf8ff");
 
@@ -82,7 +82,7 @@ FloatingActionButton fb;
     }
 });
 
-        recview=(RecyclerView)findViewById(R.id.recview);
+        recview=findViewById(R.id.recview);
         recview.setLayoutManager(new LinearLayoutManager(this));
 
         FirebaseRecyclerOptions<Medicament> options =

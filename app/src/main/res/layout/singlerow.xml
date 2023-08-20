@@ -35,7 +35,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/medicineNameShow"
+                    android:id="@+id/txtvMedicamentName"
                     android:text="name from db"
                     android:textStyle="bold"
                     android:textSize="25sp"
@@ -52,7 +52,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Rodzaj leku :"
+                    android:text="Dawka leku :"
 
                     android:textSize="20sp"
                     android:textColor="#000"/>
@@ -60,7 +60,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/medicineKindShow"
+                    android:id="@+id/txtvMedicamentDose"
                     android:text="name from db"
 
                     android:textSize="20sp"
@@ -76,7 +76,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ilość w opakowaniu :"
+                    android:text="Dodatkowe Informacje :"
 
                     android:textSize="20sp"
                     android:textColor="#000"/>
@@ -84,7 +84,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/medicineInsideShow"
+                    android:id="@+id/txtvAdditionalInfo"
                     android:text="name from db"
 
                     android:textSize="20sp"
@@ -96,52 +96,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cena leku :"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:textColor="#000"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/medicineCostShow"
-                android:text="name from db"
-                android:textStyle="bold"
-                android:textSize="20sp"
-                android:textColor="#000"
-                android:layout_marginLeft="10dp"/>
-
-
         </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Dostępność leku :"
-
-                    android:textSize="17sp"
-                    android:textColor="#000"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/medicineAvailabilityShow"
-                    android:text="name from db"
-
-                    android:textSize="17sp"
-                    android:textColor="#000"
-                    android:layout_marginLeft="10dp"/>
-
-
-            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -150,7 +106,7 @@
                 <ImageView
                     android:id="@+id/btnEdit"
                     android:layout_width="130dp"
-                    android:layout_below="@id/medicineInsideShow"
+                    android:layout_below="@id/txtvAdditionalInfo"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_update" />
 

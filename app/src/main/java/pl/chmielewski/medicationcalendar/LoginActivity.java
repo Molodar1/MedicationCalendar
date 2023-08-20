@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -77,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
         private void sendUserToNextActivity() {
-            Intent intent=new Intent(LoginActivity.this, RecylcerShow.class);
+            Intent intent=new Intent(LoginActivity.this, RecyclerShow.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }

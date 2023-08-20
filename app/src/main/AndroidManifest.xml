@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RecylcerShow"
+            android:name=".RecyclerShow"
             android:exported="false" />
         <activity
             android:name=".AddMedicament"

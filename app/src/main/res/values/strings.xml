@@ -168,4 +168,7 @@
     <string name="inputMedicamentNameText">Podaj nazwę leku</string>
     <string name="insertMedicamentDose">Podaj dawkę leku</string>
     <string name="insertDailyMedicamentInputFrequency">Podaj częstotliwość przyjmowania</string>
+    <string name="input_additional_info">Podaj dodatkowe informacje</string>
+    <string name="add_medicament_to_db_btn_text">Dodaj lek</string>
+    <string name="return_btn_text">Cofnij</string>
 </resources>
