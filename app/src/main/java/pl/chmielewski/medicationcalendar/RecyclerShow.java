@@ -14,6 +14,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -24,6 +25,7 @@ public class RecyclerShow extends AppCompatActivity
     RecyclerView recview;
     AdapterShow adapter;
     SearchView searchView;
+    DatabaseReference databaseReference;
 FloatingActionButton fb;
 
     @Override
@@ -32,6 +34,15 @@ FloatingActionButton fb;
         setContentView(R.layout.activity_recylcer_show);
         setTitle("");
         searchView = findViewById(R.id.searchView);
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            databaseReference = FirebaseDatabase.getInstance().getReference()
+                    .child("Medicament")
+                    .child(userId);
+        }
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationViewEmployee);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -64,11 +75,11 @@ FloatingActionButton fb;
     }
 
     private void filterList(String s) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Medicament");
+        //DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Medicament");
 
         String query = s.toUpperCase(); // Konwertujemy zapytanie na małe litery
 
-        Query filteredQuery = reference.orderByChild("medicamentName")
+        Query filteredQuery = databaseReference.orderByChild("medicamentName")
                 .startAt(query)
                 .endAt(query + "\uf8ff");
 
@@ -87,7 +98,7 @@ FloatingActionButton fb;
 
         FirebaseRecyclerOptions<Medicament> options =
                 new FirebaseRecyclerOptions.Builder<Medicament>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Medicament"), Medicament.class)
+                        .setQuery(databaseReference, Medicament.class)
                 .build();
         adapter=new AdapterShow(options);
         recview.setAdapter(adapter);

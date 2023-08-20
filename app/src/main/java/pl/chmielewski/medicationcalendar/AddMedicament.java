@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -47,10 +49,15 @@ public class AddMedicament extends AppCompatActivity {
         edtMedicamentAdditionalInfo = findViewById(R.id.editTextInputMedicamentAdditionalInfo);
         // below line is used to get the
         // instance of our FIrebase database.
-        firebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            databaseReference = FirebaseDatabase.getInstance().getReference("Medicament")
+                    .child(userId);
+        }
 
         // below line is used to get reference for our database.
-        databaseReference = firebaseDatabase.getReference("Medicament");
+        //databaseReference = firebaseDatabase.getReference("Medicament");
 
         // initializing our object
         // class variable.

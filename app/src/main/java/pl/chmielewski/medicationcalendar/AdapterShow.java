@@ -19,6 +19,9 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
@@ -30,9 +33,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AdapterShow extends FirebaseRecyclerAdapter<Medicament, AdapterShow.myviewholder>
 {
-
+DatabaseReference databaseReference;
     public AdapterShow(@NonNull FirebaseRecyclerOptions<Medicament> options) {
+
         super(options);
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            databaseReference = FirebaseDatabase.getInstance().getReference("Medicament")
+                    .child(userId);
+        }
     }
 
     @Override
@@ -68,7 +78,7 @@ public class AdapterShow extends FirebaseRecyclerAdapter<Medicament, AdapterShow
                         map.put("medicamentDose",edtMedicamentDose.getText().toString());
                         map.put("medicamentAdditionalInfo",edtAdditionalInfo.getText().toString());
 
-                        FirebaseDatabase.getInstance().getReference().child("Medicament")
+                        databaseReference
                                 .child(getRef(position).getKey()).updateChildren(map)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -100,7 +110,7 @@ public class AdapterShow extends FirebaseRecyclerAdapter<Medicament, AdapterShow
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        FirebaseDatabase.getInstance().getReference().child("Medicament")
+                        databaseReference
                                 .child(getRef(position).getKey()).removeValue();
                     }
                 });
