@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -8,26 +10,44 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<!--        <receiver android:name="com.allyants.notifyme.NotificationPublisher"/>-->
-<!--        <receiver android:name="com.allyants.notifyme.BootNotifyMe">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.BOOT_COMPLETED"/>-->
-<!--                <category android:name="android.intent.category.HOME"/>-->
-<!--            </intent-filter>-->
-<!--        </receiver>-->
-        <activity android:name=".menu.optionsActivities.detailedActivities.SetNotificationActivity" />
-        <activity android:name=".menu.optionsActivities.DeleteMedicamentActivity" />
-        <activity android:name=".menu.optionsActivities.AddMedicamentActivity" />
-        <activity android:name=".menu.optionsActivities.detailedActivities.MedicamentDetailsActivity" />
-        <activity android:name=".menu.optionsActivities.MedicationListActivity" />
-        <activity android:name=".menu.OptionsActivity"
-            android:exported="true">
+        <activity
+            android:name=".SetNotificationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegistrationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true"
+            android:label="@string/title_activity_login"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".RecyclerShow"
+            android:exported="false" />
+        <activity
+            android:name=".AddMedicament"
+            android:exported="false" /> <!-- <activity android:name=".menu.optionsActivities.detailedActivities.SetNotificationActivity" /> -->
+        <!-- <activity android:name=".menu.optionsActivities.DeleteMedicamentActivity" /> -->
+        <!-- <activity android:name=".menu.optionsActivities.AddMedicamentActivity" /> -->
+        <!-- <activity android:name=".menu.optionsActivities.detailedActivities.MedicamentDetailsActivity" /> -->
+        <!-- <activity android:name=".menu.optionsActivities.MedicationListActivity" /> -->
+        <!-- <activity -->
+        <!-- android:name=".menu.OptionsActivity" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

@@ -130,5 +130,45 @@
         <item>58</item>
         <item>59</item>
     </string-array>
-
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="login">Zaloguj</string>
+    <string name="email">Email</string>
+    <string name="password">Hasło</string>
+    <string name="forgot_password">Zapomniałeś hasła?</string>
+    <string name="login_text">Zaloguj</string>
+    <string name="createAccountText">Chcesz założyć konto?</string>
+    <string name="orText">ALBO</string>
+    <string name="logIn">Logowanie</string>
+    <string name="registerText">Rejestracja</string>
+    <string name="alreadyHaveAccountText">Masz już konto?</string>
+    <string name="register">Zarejestruj się</string>
+    <string name="repeatPasswordText">Powtórz hasło</string>
+    <string name="title_activity_home">Home</string>
+    <string name="Dodaj_Artykuły">AddAr</string>
+    <string name="Profil">Profile</string>
+    <string name="Wyloguj">Log Out</string>
+    <string name="Dodaj">Add</string>
+    <string name="Ulubione">Favorite</string>
+    <string name="Leki">Medicine</string>
+    <string name="Artykuły">Article</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="inputMedicamentNameText">Podaj nazwę leku</string>
+    <string name="insertMedicamentDose">Podaj dawkę leku</string>
+    <string name="insertDailyMedicamentInputFrequency">Podaj częstotliwość przyjmowania</string>
+    <string name="input_additional_info">Podaj dodatkowe informacje</string>
+    <string name="add_medicament_to_db_btn_text">Dodaj lek</string>
+    <string name="return_btn_text">Cofnij</string>
 </resources>
