@@ -4,6 +4,7 @@ package pl.chmielewski.medicationcalendar;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -125,13 +126,13 @@ DatabaseReference databaseReference;
                 builder.show();
             }
         });
-        holder.buy.setOnClickListener(new View.OnClickListener() {
+        holder.setNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String medicineKey = getRef(position).getKey();
                 Medicament medicineInfo = getItem(position);
 
-//                Intent intent = new Intent(view.getContext(), MedicineShop.class);
+                Intent intent = new Intent(view.getContext(), SetNotificationActivity.class);
 //                intent.putExtra("medicineKey", medicineKey);
 //              //  intent.putExtra("medicament", medicament);
 //                view.getContext().startActivity(intent);
@@ -149,7 +150,7 @@ DatabaseReference databaseReference;
 
     static class myviewholder extends RecyclerView.ViewHolder
     { CircleImageView img;
-        ImageView edit,delete,buy;
+        ImageView edit,delete, setNotification;
         TextView name,dose, additionalInfo;
         public myviewholder(@NonNull View itemView)
         {
@@ -160,7 +161,7 @@ DatabaseReference databaseReference;
            additionalInfo =(TextView)itemView.findViewById(R.id.txtvAdditionalInfo);
             edit=(ImageView)itemView.findViewById(R.id.btnEdit);
             delete=(ImageView)itemView.findViewById(R.id.btnDelete);
-            buy=(ImageView)itemView.findViewById(R.id.btnBuy);
+            setNotification =(ImageView)itemView.findViewById(R.id.btnBuy);
         }
     }
 }

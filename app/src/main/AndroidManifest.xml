@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".SetNotificationActivity"
+            android:exported="false" />
+        <activity
             android:name=".RegistrationActivity"
             android:exported="false" />
         <activity
@@ -29,22 +32,19 @@
             android:exported="false" />
         <activity
             android:name=".AddMedicament"
-            android:exported="false" />
-<!--        <activity android:name=".menu.optionsActivities.detailedActivities.SetNotificationActivity" />-->
-<!--        <activity android:name=".menu.optionsActivities.DeleteMedicamentActivity" />-->
-<!--        <activity android:name=".menu.optionsActivities.AddMedicamentActivity" />-->
-<!--        <activity android:name=".menu.optionsActivities.detailedActivities.MedicamentDetailsActivity" />-->
-<!--        <activity android:name=".menu.optionsActivities.MedicationListActivity" />-->
-<!--        <activity-->
-<!--            android:name=".menu.OptionsActivity"-->
-<!--            android:exported="true">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
-
+            android:exported="false" /> <!-- <activity android:name=".menu.optionsActivities.detailedActivities.SetNotificationActivity" /> -->
+        <!-- <activity android:name=".menu.optionsActivities.DeleteMedicamentActivity" /> -->
+        <!-- <activity android:name=".menu.optionsActivities.AddMedicamentActivity" /> -->
+        <!-- <activity android:name=".menu.optionsActivities.detailedActivities.MedicamentDetailsActivity" /> -->
+        <!-- <activity android:name=".menu.optionsActivities.MedicationListActivity" /> -->
+        <!-- <activity -->
+        <!-- android:name=".menu.OptionsActivity" -->
+        <!-- android:exported="true"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
