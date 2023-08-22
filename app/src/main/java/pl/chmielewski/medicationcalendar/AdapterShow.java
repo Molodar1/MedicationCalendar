@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -31,6 +32,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import pl.chmielewski.medicationcalendar.alarmslist.AlarmsListActivity;
+import pl.chmielewski.medicationcalendar.createalarm.CreateAlarmActivity;
 
 public class AdapterShow extends FirebaseRecyclerAdapter<Medicament, AdapterShow.myviewholder>
 {
@@ -132,10 +135,11 @@ DatabaseReference databaseReference;
                 String medicineKey = getRef(position).getKey();
                 Medicament medicineInfo = getItem(position);
 
-                Intent intent = new Intent(view.getContext(), SetNotificationActivity.class);
-//                intent.putExtra("medicineKey", medicineKey);
-//              //  intent.putExtra("medicament", medicament);
-//                view.getContext().startActivity(intent);
+                Intent intent = new Intent(view.getContext(), AlarmsListActivity.class);
+////                intent.putExtra("medicineKey", medicineKey);
+////              //  intent.putExtra("medicament", medicament);
+                view.getContext().startActivity(intent);
+              //  Navigation.findNavController(view).navigate(R.id.action_alarmsListFragment_to_createAlarmFragment);
             }
         });
     } // End of OnBindViewMethod
