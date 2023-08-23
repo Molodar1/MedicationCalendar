@@ -3,7 +3,6 @@ package pl.chmielewski.medicationcalendar.broadcastreceiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -20,7 +19,9 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
     public static final String SATURDAY = "SATURDAY";
     public static final String SUNDAY = "SUNDAY";
     public static final String RECURRING = "RECURRING";
-    public static final String TITLE = "TITLE";
+    public static final String MEDICAMENT_NAME = "MEDICAMENT_NAME";
+    public static final String MEDICAMENT_DOSE = "MEDICAMENT_DOSE";
+    public static final String MEDICAMENT_ADDITIONAL_INFO = "MEDICAMENT_ADDITIONAL_INFO";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -82,7 +83,9 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
 
     private void startAlarmService(Context context, Intent intent) {
         Intent intentService = new Intent(context, AlarmService.class);
-        intentService.putExtra(TITLE, intent.getStringExtra(TITLE));
+        intentService.putExtra(MEDICAMENT_NAME, intent.getStringExtra(MEDICAMENT_NAME));
+        intentService.putExtra(MEDICAMENT_DOSE, intent.getStringExtra(MEDICAMENT_DOSE));
+        intentService.putExtra(MEDICAMENT_ADDITIONAL_INFO, intent.getStringExtra(MEDICAMENT_ADDITIONAL_INFO));
         context.startForegroundService(intentService);
     }
 

@@ -3,7 +3,6 @@ package pl.chmielewski.medicationcalendar.application;
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.os.Build;
 
 public class App extends Application {
     public static final String CHANNEL_ID = "ALARM_SERVICE_CHANNEL";
@@ -12,10 +11,10 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-        createNotificationChannnel();
+        createNotificationChannel();
     }
 
-    private void createNotificationChannnel() {
+    private void createNotificationChannel() {
         NotificationChannel serviceChannel = new NotificationChannel(
                 CHANNEL_ID,
                 "Alarm Service Channel",

@@ -3,12 +3,14 @@ package pl.chmielewski.medicationcalendar.data;
 
 
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.FRIDAY;
+import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_ADDITIONAL_INFO;
+import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_DOSE;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MONDAY;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.RECURRING;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.SATURDAY;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.SUNDAY;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.THURSDAY;
-import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.TITLE;
+import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_NAME;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.TUESDAY;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.WEDNESDAY;
 
@@ -39,11 +41,12 @@ public class Alarm {
     private int hour, minute;
     private boolean started, recurring;
     private boolean monday, tuesday, wednesday, thursday, friday, saturday, sunday;
-    private String title;
-
+    private String medicamentName;
     private long created;
+    private String medicamentDose;
+    private String medicamentAdditionalInfo;
 
-    public Alarm(int alarmId, int hour, int minute, String title, long created, boolean started, boolean recurring, boolean monday, boolean tuesday, boolean wednesday, boolean thursday, boolean friday, boolean saturday, boolean sunday) {
+    public Alarm(int alarmId, int hour, int minute, String medicamentName, String medicamentDose, String medicamentAdditionalInfo, long created, boolean started, boolean recurring, boolean monday, boolean tuesday, boolean wednesday, boolean thursday, boolean friday, boolean saturday, boolean sunday) {
         this.alarmId = alarmId;
         this.hour = hour;
         this.minute = minute;
@@ -59,7 +62,9 @@ public class Alarm {
         this.saturday = saturday;
         this.sunday = sunday;
 
-        this.title = title;
+        this.medicamentName = medicamentName;
+        this.medicamentDose=medicamentDose;
+        this.medicamentAdditionalInfo=medicamentAdditionalInfo;
 
         this.created = created;
     }
@@ -116,6 +121,22 @@ public class Alarm {
         return sunday;
     }
 
+    public String getMedicamentDose() {
+        return medicamentDose;
+    }
+
+    public void setMedicamentDose(String medicamentDose) {
+        this.medicamentDose = medicamentDose;
+    }
+
+    public String getMedicamentAdditionalInfo() {
+        return medicamentAdditionalInfo;
+    }
+
+    public void setMedicamentAdditionalInfo(String medicamentAdditionalInfo) {
+        this.medicamentAdditionalInfo = medicamentAdditionalInfo;
+    }
+
     public void schedule(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
@@ -129,7 +150,9 @@ public class Alarm {
         intent.putExtra(SATURDAY, saturday);
         intent.putExtra(SUNDAY, sunday);
 
-        intent.putExtra(TITLE, title);
+        intent.putExtra(MEDICAMENT_NAME, medicamentName);
+        intent.putExtra(MEDICAMENT_DOSE, medicamentDose);
+        intent.putExtra(MEDICAMENT_ADDITIONAL_INFO, medicamentAdditionalInfo);
 
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, alarmId, intent, PendingIntent.FLAG_IMMUTABLE);
 
@@ -148,7 +171,7 @@ public class Alarm {
         if (!recurring) {
             String toastText = null;
             try {
-                toastText = String.format("One Time Alarm %s scheduled for %s at %02d:%02d", title, DayUtil.toDay(calendar.get(Calendar.DAY_OF_WEEK)), hour, minute, alarmId);
+                toastText = String.format("One Time Alarm %s scheduled for %s at %02d:%02d", medicamentName, DayUtil.toDay(calendar.get(Calendar.DAY_OF_WEEK)), hour, minute, alarmId);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -172,7 +195,7 @@ public class Alarm {
                 );
             }
         } else {
-                String toastText = String.format("Recurring Alarm %s scheduled for %s at %02d:%02d", title, getRecurringDaysText(), hour, minute, alarmId);
+                String toastText = String.format("Recurring Alarm %s scheduled for %s at %02d:%02d", medicamentName, getRecurringDaysText(), hour, minute, alarmId);
                 Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
 
                 final long RUN_DAILY = 24 * 60 * 60 * 1000;
@@ -231,8 +254,8 @@ public class Alarm {
         return days;
     }
 
-    public String getTitle() {
-        return title;
+    public String getMedicamentName() {
+        return medicamentName;
     }
 
     public long getCreated() {

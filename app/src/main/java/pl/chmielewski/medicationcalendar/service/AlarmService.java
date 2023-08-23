@@ -2,7 +2,9 @@ package pl.chmielewski.medicationcalendar.service;
 
 
 import static pl.chmielewski.medicationcalendar.application.App.CHANNEL_ID;
-import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.TITLE;
+import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_ADDITIONAL_INFO;
+import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_DOSE;
+import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_NAME;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -40,21 +42,25 @@ public class AlarmService extends Service {
         Intent notificationIntent = new Intent(this, RingActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
 
-        String alarmTitle = String.format("%s Alarm", intent.getStringExtra(TITLE));
+        String alarmTitle = String.format("%s Alarm", intent.getStringExtra(MEDICAMENT_NAME));
+        String alarmText = String.format("Nazwa leku: %s \nDawka leku: %s\nDodatkowe informacje: %s",intent.getStringExtra(MEDICAMENT_NAME), intent.getStringExtra(MEDICAMENT_DOSE),intent.getStringExtra(MEDICAMENT_ADDITIONAL_INFO));
+        NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle() .bigText(alarmText);
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle(alarmTitle)
-                .setContentText("Ring Ring .. Ring Ring")
+                .setContentText(alarmText)
                 .setSmallIcon(R.drawable.ic_alarm_black_24dp)
                 .setContentIntent(pendingIntent)
+                .setStyle(bigTextStyle)
                 .build();
+        startForeground(1, notification);
 
         mediaPlayer.start();
 
         long[] pattern = { 0, 100, 1000 };
         vibrator.vibrate(pattern, 0);
 
-        startForeground(1, notification);
+
 
         return START_STICKY;
     }

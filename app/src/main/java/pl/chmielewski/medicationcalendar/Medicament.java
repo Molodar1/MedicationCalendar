@@ -1,6 +1,8 @@
 package pl.chmielewski.medicationcalendar;
 
-public class Medicament
+import java.io.Serializable;
+
+public class Medicament implements Serializable
 {
     private String medicamentId;
     private String medicamentName;

@@ -1,8 +1,5 @@
 package pl.chmielewski.medicationcalendar.createalarm;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,10 +10,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TimePicker;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
+
 import java.util.Random;
 
-import pl.chmielewski.medicationcalendar.R;
-import pl.chmielewski.medicationcalendar.alarmslist.AlarmsListActivity;
+import pl.chmielewski.medicationcalendar.Medicament;
+import pl.chmielewski.medicationcalendar.RecyclerShow;
 import pl.chmielewski.medicationcalendar.data.Alarm;
 import pl.chmielewski.medicationcalendar.databinding.ActivityCreateAlarmBinding;
 
@@ -24,6 +24,7 @@ public class CreateAlarmActivity extends AppCompatActivity {
 
     private ActivityCreateAlarmBinding binding;
     private CreateAlarmViewModel createAlarmViewModel;
+    private Medicament medicamentFromIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +36,12 @@ public class CreateAlarmActivity extends AppCompatActivity {
 
         // Inicjalizacja widoków
         TimePicker timePicker = binding.fragmentCreatealarmTimePicker;
-        EditText title = binding.fragmentCreatealarmTitle;
+        binding.fragmentCreatealarmTimePicker.setIs24HourView(true);
+        EditText medicamentName = binding.fragmentCreatealarmTitle;
+        EditText medicamentDose= binding.fragmentCreatealarmDose;
+        EditText medicamentAdditionalInfo = binding.fragmentCreatealarmAdditionalInfo;
         Button scheduleAlarm = binding.fragmentCreatealarmScheduleAlarm;
         CheckBox recurring = binding.fragmentCreatealarmRecurring;
-        CheckBox mon = binding.fragmentCreatealarmCheckMon;
-        CheckBox tue = binding.fragmentCreatealarmCheckTue;
-        CheckBox wed = binding.fragmentCreatealarmCheckWed;
-        CheckBox thu = binding.fragmentCreatealarmCheckThu;
-        CheckBox fri = binding.fragmentCreatealarmCheckFri;
-        CheckBox sat = binding.fragmentCreatealarmCheckSat;
-        CheckBox sun = binding.fragmentCreatealarmCheckSun;
         LinearLayout recurringOptions = binding.fragmentCreatealarmRecurringOptions;
 
         recurring.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -65,6 +62,26 @@ public class CreateAlarmActivity extends AppCompatActivity {
                 navigateToAlarmsListActivity();
             }
         });
+        Intent intent = getIntent();
+        medicamentFromIntent = (Medicament) intent.getSerializableExtra("medicament");
+
+        if (medicamentFromIntent != null) {
+            String medicamentFromIntentName,medicamentFromIntentDose,medicamentFromIntentAdditionalInfo;
+            medicamentFromIntentName=medicamentFromIntent.getMedicamentName();
+            medicamentFromIntentDose=medicamentFromIntent.getMedicamentDose();
+            medicamentFromIntentAdditionalInfo=medicamentFromIntent.getMedicamentAdditionalInfo();
+
+            if (medicamentFromIntentName!=null){
+                medicamentName.setText(medicamentFromIntent.getMedicamentName());
+            }
+            if (medicamentFromIntentDose!=null) {
+                medicamentDose.setText(medicamentFromIntent.getMedicamentDose());
+            }
+            if (medicamentFromIntentAdditionalInfo!=null) {
+                medicamentAdditionalInfo.setText(medicamentFromIntent.getMedicamentAdditionalInfo());
+            }
+
+        }
     }
 
     private void scheduleAlarm() {
@@ -75,6 +92,8 @@ public class CreateAlarmActivity extends AppCompatActivity {
                 binding.fragmentCreatealarmTimePicker.getHour(),
                 binding.fragmentCreatealarmTimePicker.getMinute(),
                 binding.fragmentCreatealarmTitle.getText().toString(),
+                binding.fragmentCreatealarmDose.getText().toString(),
+                binding.fragmentCreatealarmAdditionalInfo.getText().toString(),
                 System.currentTimeMillis(),
                 true,
                 binding.fragmentCreatealarmRecurring.isChecked(),
@@ -93,7 +112,7 @@ public class CreateAlarmActivity extends AppCompatActivity {
     }
 
     private void navigateToAlarmsListActivity() {
-        Intent intent = new Intent(this, AlarmsListActivity.class);
+        Intent intent = new Intent(this, RecyclerShow.class);
         startActivity(intent);
         finish();
     }

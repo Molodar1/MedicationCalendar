@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/medical_background">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Ring Ring"
+        android:text="@string/txt_time_to_take_medicament"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,7 +33,7 @@
         android:id="@+id/activity_ring_dismiss"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Dismiss"
+        android:text="@string/txt_turn_off_alarm"
         app:layout_constraintBottom_toTopOf="@+id/activity_ring_snooze"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -41,7 +42,7 @@
         android:id="@+id/activity_ring_snooze"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Snooze"
+        android:text="@string/txt_delay_alarm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
