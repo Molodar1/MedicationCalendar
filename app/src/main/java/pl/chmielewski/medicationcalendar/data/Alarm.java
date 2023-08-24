@@ -2,6 +2,7 @@ package pl.chmielewski.medicationcalendar.data;
 
 
 
+import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ID;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.FRIDAY;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_ADDITIONAL_INFO;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_DOSE;
@@ -26,13 +27,14 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 import pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver;
 import pl.chmielewski.medicationcalendar.createalarm.DayUtil;
 
 @Entity(tableName = "alarm_table")
-public class Alarm {
+public class Alarm implements Serializable {
 
     @PrimaryKey
     @NonNull
@@ -85,8 +87,8 @@ public class Alarm {
         return alarmId;
     }
 
-    public void setAlarmId(int alarmId) {
-        this.alarmId = alarmId;
+    public void setStarted(boolean started) {
+        this.started = started;
     }
 
     public boolean isRecurring() {
@@ -149,10 +151,11 @@ public class Alarm {
         intent.putExtra(FRIDAY, friday);
         intent.putExtra(SATURDAY, saturday);
         intent.putExtra(SUNDAY, sunday);
-
+        intent.putExtra("ALARM_OBJECT", this);
         intent.putExtra(MEDICAMENT_NAME, medicamentName);
         intent.putExtra(MEDICAMENT_DOSE, medicamentDose);
         intent.putExtra(MEDICAMENT_ADDITIONAL_INFO, medicamentAdditionalInfo);
+        intent.putExtra(ALARM_ID,alarmId);
 
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, alarmId, intent, PendingIntent.FLAG_IMMUTABLE);
 

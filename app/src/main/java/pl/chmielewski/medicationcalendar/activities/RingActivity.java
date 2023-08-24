@@ -27,6 +27,7 @@ import pl.chmielewski.medicationcalendar.service.AlarmService;
 public class RingActivity extends AppCompatActivity {
 
     ActivityRingBinding binding;
+    private String medicamentName,medicamentDose,medicamentAdditionalInfo;
 
 
     @Override
@@ -39,14 +40,17 @@ public class RingActivity extends AppCompatActivity {
         if (alarmText!=null){
             String[] alarmTextParts = alarmText.split("\n");
             if (alarmTextParts[0]!=null){
-                binding.textViewMedicamentName.setText(alarmTextParts[0].replace("Nazwa leku: ", ""));
-            }
+                medicamentName=alarmTextParts[0].replace("Nazwa leku: ", "");
+                binding.textViewMedicamentName.setText(medicamentName);
+            }else medicamentName="";
             if (alarmTextParts[1]!=null){
-                binding.textViewmedicamentDose.setText(alarmTextParts[1]);
-            }
+                medicamentDose=alarmTextParts[1];
+                binding.textViewmedicamentDose.setText(medicamentDose);
+            }else medicamentDose="";
             if (alarmTextParts[2]!=null){
-                binding.textViewMedicamentAdditionalInfo.setText(alarmTextParts[2].replace("Dodatkowe informacje: ", ""));
-            }
+                medicamentAdditionalInfo=alarmTextParts[2].replace("Dodatkowe informacje: ", "");
+                binding.textViewMedicamentAdditionalInfo.setText(medicamentAdditionalInfo);
+            }else medicamentAdditionalInfo="";
         }
         binding.activityRingDismiss.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,9 +72,9 @@ public class RingActivity extends AppCompatActivity {
                         new Random().nextInt(Integer.MAX_VALUE),
                         calendar.get(Calendar.HOUR_OF_DAY),
                         calendar.get(Calendar.MINUTE),
-                        "Odłożony",
-                        "",
-                        "",
+                        medicamentName,
+                        medicamentDose,
+                        medicamentAdditionalInfo,
                         System.currentTimeMillis(),
                         true,
                         false,

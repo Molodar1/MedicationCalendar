@@ -2,6 +2,7 @@ package pl.chmielewski.medicationcalendar.service;
 
 
 import static pl.chmielewski.medicationcalendar.application.App.CHANNEL_ID;
+import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ID;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_ADDITIONAL_INFO;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_DOSE;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_NAME;
@@ -21,16 +22,21 @@ import androidx.core.app.NotificationCompat;
 
 import pl.chmielewski.medicationcalendar.R;
 import pl.chmielewski.medicationcalendar.activities.RingActivity;
+import pl.chmielewski.medicationcalendar.data.Alarm;
+import pl.chmielewski.medicationcalendar.data.AlarmDao;
+import pl.chmielewski.medicationcalendar.data.AlarmRepository;
 
 public class AlarmService extends Service {
     private MediaPlayer mediaPlayer;
     private Vibrator vibrator;
     private NotificationManager notificationManager;
+    private AlarmRepository alarmRepository;
+   private int alarmId;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
+        alarmRepository = new AlarmRepository(getApplication());
         mediaPlayer = MediaPlayer.create(this, R.raw.alarm);
         mediaPlayer.setLooping(true);
 
@@ -41,6 +47,7 @@ public class AlarmService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         String alarmTitle = String.format("%s Alarm", intent.getStringExtra(MEDICAMENT_NAME));
         String alarmText = String.format("Nazwa leku: %s \nDawka leku: %s\nDodatkowe informacje: %s\n",intent.getStringExtra(MEDICAMENT_NAME), intent.getStringExtra(MEDICAMENT_DOSE),intent.getStringExtra(MEDICAMENT_ADDITIONAL_INFO));
+        Alarm alarm =(Alarm) intent.getSerializableExtra("ALARM_OBJECT");
         Intent notificationIntent = new Intent(this, RingActivity.class);
         notificationIntent.putExtra("alarmText",alarmText);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
@@ -56,6 +63,12 @@ public class AlarmService extends Service {
                 .setStyle(bigTextStyle)
                 .build();
         startForeground(1, notification);
+
+            if (alarm != null) {
+                alarm.setStarted(false);
+                alarmRepository.update(alarm);
+
+            }
 
         mediaPlayer.start();
 
