@@ -39,11 +39,13 @@ public class AlarmService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Intent notificationIntent = new Intent(this, RingActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
-
         String alarmTitle = String.format("%s Alarm", intent.getStringExtra(MEDICAMENT_NAME));
-        String alarmText = String.format("Nazwa leku: %s \nDawka leku: %s\nDodatkowe informacje: %s",intent.getStringExtra(MEDICAMENT_NAME), intent.getStringExtra(MEDICAMENT_DOSE),intent.getStringExtra(MEDICAMENT_ADDITIONAL_INFO));
+        String alarmText = String.format("Nazwa leku: %s \nDawka leku: %s\nDodatkowe informacje: %s\n",intent.getStringExtra(MEDICAMENT_NAME), intent.getStringExtra(MEDICAMENT_DOSE),intent.getStringExtra(MEDICAMENT_ADDITIONAL_INFO));
+        Intent notificationIntent = new Intent(this, RingActivity.class);
+        notificationIntent.putExtra("alarmText",alarmText);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
+
         NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle() .bigText(alarmText);
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)

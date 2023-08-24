@@ -171,7 +171,7 @@ public class Alarm {
         if (!recurring) {
             String toastText = null;
             try {
-                toastText = String.format("One Time Alarm %s scheduled for %s at %02d:%02d", medicamentName, DayUtil.toDay(calendar.get(Calendar.DAY_OF_WEEK)), hour, minute, alarmId);
+                toastText = String.format("Jednorazowy Alarm %s został ustawiony", medicamentName);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -195,7 +195,7 @@ public class Alarm {
                 );
             }
         } else {
-                String toastText = String.format("Recurring Alarm %s scheduled for %s at %02d:%02d", medicamentName, getRecurringDaysText(), hour, minute, alarmId);
+                String toastText = String.format("Cykliczny Alarm %s ustawiony na dni: %s o godz. %02d:%02d", medicamentName, getRecurringDaysText(), hour, minute, alarmId);
                 Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
 
                 final long RUN_DAILY = 24 * 60 * 60 * 1000;
@@ -218,7 +218,7 @@ public class Alarm {
         alarmManager.cancel(alarmPendingIntent);
         this.started = false;
 
-        String toastText = String.format("Alarm cancelled for %02d:%02d with id %d", hour, minute, alarmId);
+        String toastText = String.format("Alarm %s na godzine %02d:%02d został anulowany",medicamentName, hour, minute);
         Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
         Log.i("cancel", toastText);
     }
@@ -230,25 +230,25 @@ public class Alarm {
 
         String days = "";
         if (monday) {
-            days += "Mo ";
+            days += "Pon ";
         }
         if (tuesday) {
-            days += "Tu ";
+            days += "Wt ";
         }
         if (wednesday) {
-            days += "We ";
+            days += "Śr ";
         }
         if (thursday) {
-            days += "Th ";
+            days += "Czw ";
         }
         if (friday) {
-            days += "Fr ";
+            days += "Pt ";
         }
         if (saturday) {
-            days += "Sa ";
+            days += "Sob ";
         }
         if (sunday) {
-            days += "Su ";
+            days += "Nd ";
         }
 
         return days;

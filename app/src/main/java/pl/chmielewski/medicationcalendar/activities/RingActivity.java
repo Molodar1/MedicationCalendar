@@ -35,7 +35,19 @@ public class RingActivity extends AppCompatActivity {
         binding = ActivityRingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
+        String alarmText = getIntent().getStringExtra("alarmText");
+        if (alarmText!=null){
+            String[] alarmTextParts = alarmText.split("\n");
+            if (alarmTextParts[0]!=null){
+                binding.textViewMedicamentName.setText(alarmTextParts[0].replace("Nazwa leku: ", ""));
+            }
+            if (alarmTextParts[1]!=null){
+                binding.textViewmedicamentDose.setText(alarmTextParts[1]);
+            }
+            if (alarmTextParts[2]!=null){
+                binding.textViewMedicamentAdditionalInfo.setText(alarmTextParts[2].replace("Dodatkowe informacje: ", ""));
+            }
+        }
         binding.activityRingDismiss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
