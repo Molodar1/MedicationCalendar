@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -31,6 +32,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import pl.chmielewski.medicationcalendar.alarmslist.AlarmsListActivity;
+import pl.chmielewski.medicationcalendar.createalarm.CreateAlarmActivity;
 
 public class AdapterShow extends FirebaseRecyclerAdapter<Medicament, AdapterShow.myviewholder>
 {
@@ -105,10 +108,10 @@ DatabaseReference databaseReference;
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder=new AlertDialog.Builder(view.getContext());
-                builder.setTitle("Delete Panel");
-                builder.setMessage("Delete...?");
+                builder.setTitle("Potwierdzenie usunięcia");
+                builder.setMessage("Czy na pewno chcesz usunąć ten element?");
 
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton("Tak", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         databaseReference
@@ -116,7 +119,7 @@ DatabaseReference databaseReference;
                     }
                 });
 
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton("Nie", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -129,13 +132,10 @@ DatabaseReference databaseReference;
         holder.setNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String medicineKey = getRef(position).getKey();
-                Medicament medicineInfo = getItem(position);
 
-                Intent intent = new Intent(view.getContext(), SetNotificationActivity.class);
-//                intent.putExtra("medicineKey", medicineKey);
-//              //  intent.putExtra("medicament", medicament);
-//                view.getContext().startActivity(intent);
+                Intent intent = new Intent(view.getContext(), CreateAlarmActivity.class);
+                intent.putExtra("medicament", medicament);
+                view.getContext().startActivity(intent);
             }
         });
     } // End of OnBindViewMethod

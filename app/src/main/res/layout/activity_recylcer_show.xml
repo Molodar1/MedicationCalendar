@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RecyclerShow">
+    tools:context=".RecyclerShow"
+    android:background="@drawable/medical_background">
 
     <android.widget.SearchView
         android:id='@+id/searchView'
@@ -36,15 +37,15 @@ android:background="@drawable/seach_view_bg"
         app:layout_constraintVertical_bias="0.0" />
 
 
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationViewEmployee"
         android:layout_width="match_parent"
         android:layout_height="70dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="1dp"
-        app:menu="@menu/bottom_navigation_menu"/>
+        app:menu="@menu/bottom_navigation_menu"
+        app:labelVisibilityMode="labeled"
+        tools:layout_editor_absoluteX="106dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

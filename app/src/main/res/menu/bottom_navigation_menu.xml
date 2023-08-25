@@ -1,16 +1,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-    <item
-        android:id="@+id/action_logout"
-        android:icon="@android:drawable/ic_lock_power_off"
-        android:title="@string/Wyloguj" />
     <item
         android:id="@+id/action_dodaj"
         android:icon="@drawable/baseline_add_circle_outline_24"
         android:title="@string/Dodaj" />
     <item
+        android:id="@+id/action_alarms"
+        android:icon="@drawable/ic_alarm_black_24dp"
+        android:title="@string/alarms" />
+    <item
         android:id="@+id/action_profile"
         android:icon="@drawable/baseline_person_2_24"
         android:title="@string/Profil" />
+    <item
+        android:id="@+id/action_logout"
+        android:icon="@android:drawable/ic_lock_power_off"
+        android:title="@string/Wyloguj" />
+
 </menu>

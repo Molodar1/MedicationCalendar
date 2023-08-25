@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/linearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/medical_background">
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_time_to_take_medicament"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/activity_ring_clock"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView"
+                app:srcCompat="@drawable/ic_alarm_black_24dp" />
+
+            <TextView
+                android:id="@+id/textViewMedicamentName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_ring_clock" />
+
+            <TextView
+                android:id="@+id/textViewmedicamentDose"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textSize="30sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewMedicamentName" />
+
+    <TextView
+        android:id="@+id/textViewMedicamentAdditionalInfo"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text=""
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="20sp"
+        android:scrollbars="vertical"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/activity_ring_dismiss"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewmedicamentDose" />
+    <Button
+        android:id="@+id/activity_ring_dismiss"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_turn_off_alarm"
+        app:layout_constraintBottom_toTopOf="@+id/activity_ring_snooze"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/activity_ring_snooze"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_delay_alarm"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

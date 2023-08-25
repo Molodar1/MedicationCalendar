@@ -2,8 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.SEND_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
+        android:name=".application.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -11,8 +17,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SetNotificationActivity"
+            android:name=".alarmslist.AlarmsListActivity"
             android:exported="false" />
+        <activity
+            android:name=".createalarm.CreateAlarmActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.RingActivity"
+            android:exported="true" />
         <activity
             android:name=".RegistrationActivity"
             android:exported="false" />
@@ -32,22 +44,22 @@
             android:exported="false" />
         <activity
             android:name=".AddMedicament"
-            android:exported="false" /> <!-- <activity android:name=".menu.optionsActivities.detailedActivities.SetNotificationActivity" /> -->
-        <!-- <activity android:name=".menu.optionsActivities.DeleteMedicamentActivity" /> -->
-        <!-- <activity android:name=".menu.optionsActivities.AddMedicamentActivity" /> -->
-        <!-- <activity android:name=".menu.optionsActivities.detailedActivities.MedicamentDetailsActivity" /> -->
-        <!-- <activity android:name=".menu.optionsActivities.MedicationListActivity" /> -->
-        <!-- <activity -->
-        <!-- android:name=".menu.OptionsActivity" -->
-        <!-- android:exported="true"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="android.intent.action.MAIN" /> -->
-        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-        <!-- </intent-filter> -->
-        <!-- </activity> -->
+            android:exported="false" />
+
+        <receiver
+            android:name=".broadcastreceiver.AlarmBroadcastReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <service android:name=".service.AlarmService" />
+        <service android:name=".service.RescheduleAlarmsService" />
     </application>
 
 </manifest>

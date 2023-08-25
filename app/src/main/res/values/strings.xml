@@ -153,9 +153,9 @@
     <string name="repeatPasswordText">Powtórz hasło</string>
     <string name="title_activity_home">Home</string>
     <string name="Dodaj_Artykuły">AddAr</string>
-    <string name="Profil">Profile</string>
-    <string name="Wyloguj">Log Out</string>
-    <string name="Dodaj">Add</string>
+    <string name="Profil">Profil</string>
+    <string name="Wyloguj">Wyloguj</string>
+    <string name="Dodaj">Dodaj lek</string>
     <string name="Ulubione">Favorite</string>
     <string name="Leki">Medicine</string>
     <string name="Artykuły">Article</string>
@@ -171,4 +171,23 @@
     <string name="input_additional_info">Podaj dodatkowe informacje</string>
     <string name="add_medicament_to_db_btn_text">Dodaj lek</string>
     <string name="return_btn_text">Cofnij</string>
+    <string name="alarms">Alarmy</string>
+    <string name="txt_turn_off_alarm">Wyłącz</string>
+    <string name="txt_delay_alarm">Odłóż</string>
+    <string name="txt_time_to_take_medicament">Czas wziąć lek!</string>
+    <string name="txt_schedule_alarm">Ustaw Alarm</string>
+    <string name="txt_set_alarm_time">Ustaw Czas</string>
+    <string name="txt_set_alarm_title">Dodaj tytuł</string>
+    <string name="txt_recurring_alarm">Alarm cykliczny</string>
+    <string name="txt_Sun">Nd</string>
+    <string name="txt_Sat">Sob</string>
+    <string name="txt_Fri">Pt</string>
+    <string name="txt_Thu">Czw</string>
+    <string name="txt_Wed">Śr</string>
+    <string name="txt_Tue">Wt</string>
+    <string name="txt_Mon">Pn</string>
+    <string name="txt_my_alarms">Moje Alarmy</string>
+    <string name="txt_add_alarm">Dodaj Alarm</string>
+    <string name="txt_input_dose">Podaj dawkę leku</string>
+    <string name="txt_input_additional_info">Podaj dodatkowe informacje</string>
 </resources>

@@ -19,6 +19,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import pl.chmielewski.medicationcalendar.alarmslist.AlarmsListActivity;
+
 
 public class RecyclerShow extends AppCompatActivity
 {
@@ -51,6 +53,9 @@ FloatingActionButton fb;
                 int itemId = item.getItemId();
                 if(itemId == R.id.action_dodaj){
                     startActivity(new Intent(RecyclerShow.this, AddMedicament.class));
+                    return true;
+                } else if (itemId==R.id.action_alarms) {
+                    startActivity(new Intent(RecyclerShow.this, AlarmsListActivity.class));
                     return true;
                 } else if (itemId == R.id.action_logout) {
                     FirebaseAuth.getInstance().signOut();
@@ -109,6 +114,8 @@ FloatingActionButton fb;
     @Override
     protected void onStart() {
         super.onStart();
+        recview.getRecycledViewPool().clear();
+        adapter.notifyDataSetChanged();
         adapter.startListening();
     }
 
