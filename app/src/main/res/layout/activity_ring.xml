@@ -57,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:text=""
-        android:textAlignment="textStart"
+        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textSize="20sp"
         android:scrollbars="vertical"

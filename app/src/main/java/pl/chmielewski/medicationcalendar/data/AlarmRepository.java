@@ -27,9 +27,6 @@ public class AlarmRepository {
             alarmDao.update(alarm);
         });
     }
-    public Alarm getById(int alarmId) {
-        return alarmDao.getById(alarmId).getValue();
-    }
 
     public LiveData<List<Alarm>> getAlarmsLiveData() {
         return alarmsLiveData;

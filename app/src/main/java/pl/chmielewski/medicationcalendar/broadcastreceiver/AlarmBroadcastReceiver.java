@@ -1,8 +1,11 @@
 package pl.chmielewski.medicationcalendar.broadcastreceiver;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -37,9 +40,29 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
             Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
             if (!intent.getBooleanExtra(RECURRING, false)) {
                 startAlarmService(context, intent);
-            } {
+            }else {
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(System.currentTimeMillis());
+                calendar.add(Calendar.DAY_OF_MONTH, 1);
+
+                 int alarmId=intent.getIntExtra(ALARM_ID,0);
+
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarmId, intent, PendingIntent.FLAG_MUTABLE|PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    if (alarmManager.canScheduleExactAlarms()) {
+                        // Schedule the exact alarm
+                        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                    } else {
+                    }
+                } else {
+                    // Schedule the exact alarm for older versions of Android
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                }
                 if (alarmIsToday(intent)) {
                     intent.removeExtra("ALARM_OBJECT");
+
                     startAlarmService(context, intent);
                 }
             }

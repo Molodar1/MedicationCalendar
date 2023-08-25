@@ -20,6 +20,9 @@ import android.os.Vibrator;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import pl.chmielewski.medicationcalendar.R;
 import pl.chmielewski.medicationcalendar.activities.RingActivity;
 import pl.chmielewski.medicationcalendar.data.Alarm;
@@ -45,9 +48,10 @@ public class AlarmService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Alarm alarm =(Alarm) intent.getSerializableExtra("ALARM_OBJECT");
         String alarmTitle = String.format("%s Alarm", intent.getStringExtra(MEDICAMENT_NAME));
         String alarmText = String.format("Nazwa leku: %s \nDawka leku: %s\nDodatkowe informacje: %s\n",intent.getStringExtra(MEDICAMENT_NAME), intent.getStringExtra(MEDICAMENT_DOSE),intent.getStringExtra(MEDICAMENT_ADDITIONAL_INFO));
-        Alarm alarm =(Alarm) intent.getSerializableExtra("ALARM_OBJECT");
+
         Intent notificationIntent = new Intent(this, RingActivity.class);
         notificationIntent.putExtra("alarmText",alarmText);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);

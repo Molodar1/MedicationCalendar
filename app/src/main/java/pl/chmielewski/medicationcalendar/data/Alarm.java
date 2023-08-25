@@ -48,6 +48,7 @@ public class Alarm implements Serializable {
     private String medicamentDose;
     private String medicamentAdditionalInfo;
 
+
     public Alarm(int alarmId, int hour, int minute, String medicamentName, String medicamentDose, String medicamentAdditionalInfo, long created, boolean started, boolean recurring, boolean monday, boolean tuesday, boolean wednesday, boolean thursday, boolean friday, boolean saturday, boolean sunday) {
         this.alarmId = alarmId;
         this.hour = hour;
@@ -70,7 +71,6 @@ public class Alarm implements Serializable {
 
         this.created = created;
     }
-
     public int getHour() {
         return hour;
     }
@@ -187,25 +187,27 @@ public class Alarm implements Serializable {
                             calendar.getTimeInMillis(),
                             alarmPendingIntent
                     );
-                }else {
+                }
+                else {
 
                 }
-            }else {
+            }
+            else {
                 alarmManager.setExact(
                         AlarmManager.RTC_WAKEUP,
                         calendar.getTimeInMillis(),
                         alarmPendingIntent
                 );
             }
-        } else {
+        }
+        else {
                 String toastText = String.format("Cykliczny Alarm %s ustawiony na dni: %s o godz. %02d:%02d", medicamentName, getRecurringDaysText(), hour, minute, alarmId);
                 Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
 
                 final long RUN_DAILY = 24 * 60 * 60 * 1000;
-                alarmManager.setRepeating(
+                alarmManager.setExact(
                         AlarmManager.RTC_WAKEUP,
                         calendar.getTimeInMillis(),
-                        RUN_DAILY,
                         alarmPendingIntent
                 );
             }
