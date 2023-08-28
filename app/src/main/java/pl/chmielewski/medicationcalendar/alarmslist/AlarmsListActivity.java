@@ -18,7 +18,7 @@ import pl.chmielewski.medicationcalendar.createalarm.CreateAlarmActivity;
 import pl.chmielewski.medicationcalendar.data.Alarm;
 import pl.chmielewski.medicationcalendar.databinding.ActivityAlarmsListBinding;
 
-public class AlarmsListActivity extends AppCompatActivity implements OnToggleAlarmListener{
+public class AlarmsListActivity extends AppCompatActivity implements OnToggleAlarmListener,OnDeleteAlarmListener{
 
     private ActivityAlarmsListBinding binding;
     private AlarmsListViewModel alarmsListViewModel;
@@ -31,7 +31,7 @@ public class AlarmsListActivity extends AppCompatActivity implements OnToggleAla
         setContentView(binding.getRoot());
 
         alarmsListViewModel = ViewModelProviders.of(this).get(AlarmsListViewModel.class);
-        alarmRecyclerViewAdapter = new AlarmRecyclerViewAdapter(this);
+        alarmRecyclerViewAdapter = new AlarmRecyclerViewAdapter(this,this);
 
         binding.fragmentListalarmsRecylerView.setLayoutManager(new LinearLayoutManager(this));
         binding.fragmentListalarmsRecylerView.setAdapter(alarmRecyclerViewAdapter);
@@ -67,5 +67,16 @@ public class AlarmsListActivity extends AppCompatActivity implements OnToggleAla
             alarm.schedule(getApplicationContext());
             alarmsListViewModel.update(alarm);
         }
+    }
+
+    @Override
+    public void onDelete(Alarm alarm) {
+       if (alarm.isStarted()){
+           alarm.cancelAlarm(getApplicationContext());
+           alarmsListViewModel.delete(alarm);
+       }else {
+           alarmsListViewModel.delete(alarm);
+       }
+
     }
 }

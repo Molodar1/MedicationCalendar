@@ -18,23 +18,26 @@ import pl.chmielewski.medicationcalendar.data.Alarm;
 public class AlarmRecyclerViewAdapter extends RecyclerView.Adapter<AlarmViewHolder> {
     private List<Alarm> alarms;
     private OnToggleAlarmListener listener;
+    private OnDeleteAlarmListener deleteListener;
 
-    public AlarmRecyclerViewAdapter(OnToggleAlarmListener listener) {
+    public AlarmRecyclerViewAdapter(OnToggleAlarmListener listener,OnDeleteAlarmListener deleteListener) {
         this.alarms = new ArrayList<Alarm>();
         this.listener = listener;
+        this.deleteListener=deleteListener;
     }
 
     @NonNull
     @Override
     public AlarmViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_alarm, parent, false);
-        return new AlarmViewHolder(itemView, listener);
+        return new AlarmViewHolder(itemView, listener,deleteListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull AlarmViewHolder holder, int position) {
         Alarm alarm = alarms.get(position);
         holder.bind(alarm);
+
     }
 
     @Override
