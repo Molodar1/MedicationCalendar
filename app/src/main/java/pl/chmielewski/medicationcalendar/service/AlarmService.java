@@ -2,10 +2,12 @@ package pl.chmielewski.medicationcalendar.service;
 
 
 import static pl.chmielewski.medicationcalendar.application.App.CHANNEL_ID;
-import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ID;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_ADDITIONAL_INFO;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_DOSE;
+import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_KEY;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_NAME;
+import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_NUMBER_OF_DOSES;
+import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.USER_ID;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -20,14 +22,10 @@ import android.os.Vibrator;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import pl.chmielewski.medicationcalendar.R;
 import pl.chmielewski.medicationcalendar.activities.RingActivity;
-import pl.chmielewski.medicationcalendar.data.Alarm;
-import pl.chmielewski.medicationcalendar.data.AlarmDao;
-import pl.chmielewski.medicationcalendar.data.AlarmRepository;
+import pl.chmielewski.medicationcalendar.data.alarm.Alarm;
+import pl.chmielewski.medicationcalendar.data.alarm.AlarmRepository;
 
 public class AlarmService extends Service {
     private MediaPlayer mediaPlayer;
@@ -54,6 +52,9 @@ public class AlarmService extends Service {
 
         Intent notificationIntent = new Intent(this, RingActivity.class);
         notificationIntent.putExtra("alarmText",alarmText);
+        notificationIntent.putExtra(MEDICAMENT_NUMBER_OF_DOSES,intent.getStringExtra(MEDICAMENT_NUMBER_OF_DOSES));
+        notificationIntent.putExtra(MEDICAMENT_KEY,intent.getStringExtra(MEDICAMENT_KEY));
+        notificationIntent.putExtra(USER_ID,intent.getStringExtra(USER_ID));
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
 

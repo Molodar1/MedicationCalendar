@@ -1,4 +1,4 @@
-package pl.chmielewski.medicationcalendar.data;
+package pl.chmielewski.medicationcalendar.data.alarm;
 
 
 
@@ -6,6 +6,8 @@ import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcast
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.FRIDAY;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_ADDITIONAL_INFO;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_DOSE;
+import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_KEY;
+import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_NUMBER_OF_DOSES;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MONDAY;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.RECURRING;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.SATURDAY;
@@ -13,6 +15,7 @@ import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcast
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.THURSDAY;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_NAME;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.TUESDAY;
+import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.USER_ID;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.WEDNESDAY;
 
 import android.app.AlarmManager;
@@ -25,13 +28,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 import java.util.Calendar;
 
 import pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver;
-import pl.chmielewski.medicationcalendar.createalarm.DayUtil;
 
 @Entity(tableName = "alarm_table")
 public class Alarm implements Serializable {
@@ -39,17 +42,44 @@ public class Alarm implements Serializable {
     @PrimaryKey
     @NonNull
     private int alarmId;
-
+    private String userId;
     private int hour, minute;
     private boolean started, recurring;
     private boolean monday, tuesday, wednesday, thursday, friday, saturday, sunday;
-    private String medicamentName;
+    private String medicamentName,medicamentKey;
     private long created;
     private String medicamentDose;
+    private String medicamentNumberOfDoses;
     private String medicamentAdditionalInfo;
 
 
-    public Alarm(int alarmId, int hour, int minute, String medicamentName, String medicamentDose, String medicamentAdditionalInfo, long created, boolean started, boolean recurring, boolean monday, boolean tuesday, boolean wednesday, boolean thursday, boolean friday, boolean saturday, boolean sunday) {
+
+    public Alarm(int alarmId, String userId, int hour, int minute,String medicamentKey, String medicamentName, String medicamentDose, String medicamentNumberOfDoses, String medicamentAdditionalInfo, long created, boolean started, boolean recurring, boolean monday, boolean tuesday, boolean wednesday, boolean thursday, boolean friday, boolean saturday, boolean sunday) {
+        this.alarmId = alarmId;
+        this.userId=userId;
+        this.hour = hour;
+        this.minute = minute;
+        this.started = started;
+
+        this.recurring = recurring;
+
+        this.monday = monday;
+        this.tuesday = tuesday;
+        this.wednesday = wednesday;
+        this.thursday = thursday;
+        this.friday = friday;
+        this.saturday = saturday;
+        this.sunday = sunday;
+        this.medicamentKey=medicamentKey;
+        this.medicamentName = medicamentName;
+        this.medicamentDose=medicamentDose;
+        this.medicamentNumberOfDoses=medicamentNumberOfDoses;
+        this.medicamentAdditionalInfo=medicamentAdditionalInfo;
+
+        this.created = created;
+    }
+    @Ignore
+    public Alarm(int alarmId, int hour, int minute, String medicamentName, String medicamentDose, String medicamentNumberOfDoses, String medicamentAdditionalInfo, long created, boolean started, boolean recurring, boolean monday, boolean tuesday, boolean wednesday, boolean thursday, boolean friday, boolean saturday, boolean sunday) {
         this.alarmId = alarmId;
         this.hour = hour;
         this.minute = minute;
@@ -64,12 +94,36 @@ public class Alarm implements Serializable {
         this.friday = friday;
         this.saturday = saturday;
         this.sunday = sunday;
-
         this.medicamentName = medicamentName;
         this.medicamentDose=medicamentDose;
+        this.medicamentNumberOfDoses=medicamentNumberOfDoses;
         this.medicamentAdditionalInfo=medicamentAdditionalInfo;
 
         this.created = created;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getMedicamentKey() {
+        return medicamentKey;
+    }
+
+    public void setMedicamentKey(String medicamentKey) {
+        this.medicamentKey = medicamentKey;
+    }
+
+    public String getMedicamentNumberOfDoses() {
+        return medicamentNumberOfDoses;
+    }
+
+    public void setMedicamentNumberOfDoses(String medicamentNumberOfDoses) {
+        this.medicamentNumberOfDoses = medicamentNumberOfDoses;
     }
     public int getHour() {
         return hour;
@@ -152,8 +206,11 @@ public class Alarm implements Serializable {
         intent.putExtra(SATURDAY, saturday);
         intent.putExtra(SUNDAY, sunday);
         intent.putExtra("ALARM_OBJECT", this);
+        intent.putExtra(USER_ID,userId);
+        intent.putExtra(MEDICAMENT_KEY,medicamentKey);
         intent.putExtra(MEDICAMENT_NAME, medicamentName);
         intent.putExtra(MEDICAMENT_DOSE, medicamentDose);
+        intent.putExtra(MEDICAMENT_NUMBER_OF_DOSES, medicamentNumberOfDoses);
         intent.putExtra(MEDICAMENT_ADDITIONAL_INFO, medicamentAdditionalInfo);
         intent.putExtra(ALARM_ID,alarmId);
 

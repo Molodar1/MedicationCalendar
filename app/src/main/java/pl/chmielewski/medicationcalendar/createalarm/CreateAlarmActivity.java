@@ -15,9 +15,9 @@ import androidx.lifecycle.ViewModelProviders;
 
 import java.util.Random;
 
-import pl.chmielewski.medicationcalendar.Medicament;
+import pl.chmielewski.medicationcalendar.data.medicament.Medicament;
 import pl.chmielewski.medicationcalendar.RecyclerShow;
-import pl.chmielewski.medicationcalendar.data.Alarm;
+import pl.chmielewski.medicationcalendar.data.alarm.Alarm;
 import pl.chmielewski.medicationcalendar.databinding.ActivityCreateAlarmBinding;
 
 public class CreateAlarmActivity extends AppCompatActivity {
@@ -25,6 +25,8 @@ public class CreateAlarmActivity extends AppCompatActivity {
     private ActivityCreateAlarmBinding binding;
     private CreateAlarmViewModel createAlarmViewModel;
     private Medicament medicamentFromIntent;
+    private String medicamentFromIntentKey;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class CreateAlarmActivity extends AppCompatActivity {
         binding.fragmentCreatealarmTimePicker.setIs24HourView(true);
         EditText medicamentName = binding.fragmentCreatealarmTitle;
         EditText medicamentDose= binding.fragmentCreatealarmDose;
+        EditText medicamentNumberOfDoses= binding.fragmentCreatealarmNumberOfDoses;
         EditText medicamentAdditionalInfo = binding.fragmentCreatealarmAdditionalInfo;
         Button scheduleAlarm = binding.fragmentCreatealarmScheduleAlarm;
         CheckBox recurring = binding.fragmentCreatealarmRecurring;
@@ -64,12 +67,16 @@ public class CreateAlarmActivity extends AppCompatActivity {
         });
         Intent intent = getIntent();
         medicamentFromIntent = (Medicament) intent.getSerializableExtra("medicament");
+        medicamentFromIntentKey = intent.getStringExtra("medicament_key");
+        userId=intent.getStringExtra("user_id");
 
         if (medicamentFromIntent != null) {
             String medicamentFromIntentName,medicamentFromIntentDose,medicamentFromIntentAdditionalInfo;
+            int medicamentFromIntentNumberOfDoses;
             medicamentFromIntentName=medicamentFromIntent.getMedicamentName();
             medicamentFromIntentDose=medicamentFromIntent.getMedicamentDose();
             medicamentFromIntentAdditionalInfo=medicamentFromIntent.getMedicamentAdditionalInfo();
+            medicamentFromIntentNumberOfDoses=medicamentFromIntent.getMedicamentNumberOfDoses();
 
             if (medicamentFromIntentName!=null){
                 medicamentName.setText(medicamentFromIntent.getMedicamentName());
@@ -80,6 +87,7 @@ public class CreateAlarmActivity extends AppCompatActivity {
             if (medicamentFromIntentAdditionalInfo!=null) {
                 medicamentAdditionalInfo.setText(medicamentFromIntent.getMedicamentAdditionalInfo());
             }
+            medicamentNumberOfDoses.setText(String.valueOf(medicamentFromIntentNumberOfDoses));
 
         }
     }
@@ -89,10 +97,13 @@ public class CreateAlarmActivity extends AppCompatActivity {
 
         Alarm alarm = new Alarm(
                 alarmId,
+                userId,
                 binding.fragmentCreatealarmTimePicker.getHour(),
                 binding.fragmentCreatealarmTimePicker.getMinute(),
+                medicamentFromIntentKey,
                 binding.fragmentCreatealarmTitle.getText().toString(),
                 binding.fragmentCreatealarmDose.getText().toString(),
+                binding.fragmentCreatealarmNumberOfDoses.getText().toString(),
                 binding.fragmentCreatealarmAdditionalInfo.getText().toString(),
                 System.currentTimeMillis(),
                 true,

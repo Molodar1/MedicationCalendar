@@ -10,8 +10,8 @@ import androidx.lifecycle.Observer;
 
 import java.util.List;
 
-import pl.chmielewski.medicationcalendar.data.Alarm;
-import pl.chmielewski.medicationcalendar.data.AlarmRepository;
+import pl.chmielewski.medicationcalendar.data.alarm.Alarm;
+import pl.chmielewski.medicationcalendar.data.alarm.AlarmRepository;
 
 public class RescheduleAlarmsService extends LifecycleService {
     @Override

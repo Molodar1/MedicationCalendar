@@ -1,40 +1,52 @@
 package pl.chmielewski.medicationcalendar.activities;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 import java.util.Random;
 
 
-import pl.chmielewski.medicationcalendar.R;
-import pl.chmielewski.medicationcalendar.data.Alarm;
+import pl.chmielewski.medicationcalendar.data.medicament.Medicament;
+import pl.chmielewski.medicationcalendar.data.alarm.Alarm;
 import pl.chmielewski.medicationcalendar.databinding.ActivityRingBinding;
 import pl.chmielewski.medicationcalendar.service.AlarmService;
 
 public class RingActivity extends AppCompatActivity {
 
     ActivityRingBinding binding;
-    private String medicamentName,medicamentDose,medicamentAdditionalInfo;
-
+    DatabaseReference medicamentNumberOfDosesRef;
+    private String medicamentName,medicamentDose,medicamentAdditionalInfo,userId,medicamentKey,medicamentNumberOfDoses;
+    private int medicamentNumberOfDosesFromDB;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityRingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        System.out.println(medicamentKey);
+        userId=getIntent().getStringExtra("USER_ID");
+        medicamentKey=getIntent().getStringExtra("MEDICAMENT_KEY");
+        //medicamentKey.replace("-","");
+        if(userId!=null){
+            getMedicineNumberOfDosesFromDB();
+        }
+        else {
+            medicamentNumberOfDoses=getIntent().getStringExtra("MEDICAMENT_NUMBER_OF_DOSES");
+            binding.textViewmedicamentNumberOfDoses.setText(String.valueOf(medicamentNumberOfDoses));
+        }
 
         String alarmText = getIntent().getStringExtra("alarmText");
         if (alarmText!=null){
@@ -52,6 +64,7 @@ public class RingActivity extends AppCompatActivity {
                 binding.textViewMedicamentAdditionalInfo.setText(medicamentAdditionalInfo);
             }else medicamentAdditionalInfo="";
         }
+
         binding.activityRingDismiss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,6 +87,7 @@ public class RingActivity extends AppCompatActivity {
                         calendar.get(Calendar.MINUTE),
                         medicamentName,
                         medicamentDose,
+                        medicamentNumberOfDoses,
                         medicamentAdditionalInfo,
                         System.currentTimeMillis(),
                         true,
@@ -95,6 +109,32 @@ public class RingActivity extends AppCompatActivity {
         });
 
         animateClock();
+    }
+
+    private void getMedicineNumberOfDosesFromDB() {
+        medicamentNumberOfDosesRef= FirebaseDatabase.getInstance().getReference("Medicament")
+                .child(userId)
+                .child(medicamentKey);
+        medicamentNumberOfDosesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Tutaj możesz pobrać wartość "medicamentNumberOfDoses" z dataSnapshot
+                if (dataSnapshot.exists()) {
+                    Medicament medicament=dataSnapshot.getValue(Medicament.class);
+                   medicamentNumberOfDosesFromDB = medicament.getMedicamentNumberOfDoses();
+                   medicamentNumberOfDosesFromDB--;
+                    medicamentNumberOfDoses=String.valueOf(medicamentNumberOfDosesFromDB);
+                    binding.textViewmedicamentNumberOfDoses.setText(medicamentNumberOfDoses);
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Obsługa błędu
+            }
+        });
     }
 
     private void animateClock() {

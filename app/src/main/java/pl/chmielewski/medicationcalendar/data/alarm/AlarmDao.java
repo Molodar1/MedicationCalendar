@@ -1,4 +1,4 @@
-package pl.chmielewski.medicationcalendar.data;
+package pl.chmielewski.medicationcalendar.data.alarm;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

@@ -71,15 +71,24 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_createalarm_title" />
-        <EditText
+            <EditText
+                android:id="@+id/fragment_createalarm_number_of_doses"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="@string/txt_input_medicament_number_of_doses"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragment_createalarm_dose" />
+
+            <EditText
             android:id="@+id/fragment_createalarm_additionalInfo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:hint="@string/txt_input_additional_info"
             android:layout_marginBottom="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragment_createalarm_dose" />
+            app:layout_constraintTop_toBottomOf="@+id/fragment_createalarm_number_of_doses" />
         </LinearLayout>
 
         <CheckBox

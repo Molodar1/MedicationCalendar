@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 import pl.chmielewski.medicationcalendar.R;
-import pl.chmielewski.medicationcalendar.data.Alarm;
+import pl.chmielewski.medicationcalendar.data.alarm.Alarm;
 
 
 public class AlarmRecyclerViewAdapter extends RecyclerView.Adapter<AlarmViewHolder> {

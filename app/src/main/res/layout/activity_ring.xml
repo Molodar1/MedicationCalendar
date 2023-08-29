@@ -51,6 +51,17 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textViewMedicamentName" />
+    <TextView
+        android:id="@+id/textViewmedicamentNumberOfDoses"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewmedicamentDose" />
 
     <TextView
         android:id="@+id/textViewMedicamentAdditionalInfo"
@@ -65,7 +76,7 @@
         app:layout_constraintBottom_toTopOf="@+id/activity_ring_dismiss"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewmedicamentDose" />
+        app:layout_constraintTop_toBottomOf="@id/textViewmedicamentNumberOfDoses" />
     <Button
         android:id="@+id/activity_ring_dismiss"
         android:layout_width="0dp"

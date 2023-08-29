@@ -190,4 +190,5 @@
     <string name="txt_add_alarm">Dodaj Alarm</string>
     <string name="txt_input_dose">Podaj dawkę leku</string>
     <string name="txt_input_additional_info">Podaj dodatkowe informacje</string>
+    <string name="txt_input_medicament_number_of_doses">Podaj liczbę dawek w opakowaniu</string>
 </resources>

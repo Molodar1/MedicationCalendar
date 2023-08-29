@@ -30,7 +30,17 @@
         android:id="@+id/edtMedicamentDose"
         android:layout_marginTop="10dp"
         android:textSize="20sp"/>
-
+    <EditText
+        android:id="@+id/edtMedicamentNumberOfDoses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:hint="@string/txt_input_medicament_number_of_doses"
+        android:importantForAutofill="no"
+        android:inputType="numberDecimal"
+        android:minHeight="48dp"
+        />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

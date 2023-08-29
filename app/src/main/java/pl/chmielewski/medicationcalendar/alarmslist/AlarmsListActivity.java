@@ -1,7 +1,5 @@
 package pl.chmielewski.medicationcalendar.alarmslist;
 
-import static java.security.AccessController.getContext;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -13,9 +11,8 @@ import android.view.View;
 
 import java.util.List;
 
-import pl.chmielewski.medicationcalendar.R;
 import pl.chmielewski.medicationcalendar.createalarm.CreateAlarmActivity;
-import pl.chmielewski.medicationcalendar.data.Alarm;
+import pl.chmielewski.medicationcalendar.data.alarm.Alarm;
 import pl.chmielewski.medicationcalendar.databinding.ActivityAlarmsListBinding;
 
 public class AlarmsListActivity extends AppCompatActivity implements OnToggleAlarmListener,OnDeleteAlarmListener{

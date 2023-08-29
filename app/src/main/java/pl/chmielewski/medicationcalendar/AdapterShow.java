@@ -1,10 +1,8 @@
 package pl.chmielewski.medicationcalendar;
 
-
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,154 +12,138 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import pl.chmielewski.medicationcalendar.alarmslist.AlarmsListActivity;
-import pl.chmielewski.medicationcalendar.createalarm.CreateAlarmActivity;
+import pl.chmielewski.medicationcalendar.data.manuallyDeletedMedicament.ManuallyDeletedMedicament;
+import pl.chmielewski.medicationcalendar.data.manuallyDeletedMedicament.ManuallyDeletedMedicamentRepository;
+import pl.chmielewski.medicationcalendar.data.medicament.Medicament;
+import pl.chmielewski.medicationcalendar.data.medicament.MedicamentRepository;
 
-public class AdapterShow extends FirebaseRecyclerAdapter<Medicament, AdapterShow.myviewholder>
-{
-DatabaseReference databaseReference;
-    public AdapterShow(@NonNull FirebaseRecyclerOptions<Medicament> options) {
+public class AdapterShow extends RecyclerView.Adapter<AdapterShow.myviewholder> {
+    private List<Medicament> medicamentList;
+    private MedicamentRepository medicamentRepository;
+    private ManuallyDeletedMedicamentRepository manuallyDeletedMedicamentRepository;
 
-        super(options);
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser != null) {
-            String userId = currentUser.getUid();
-            databaseReference = FirebaseDatabase.getInstance().getReference("Medicament")
-                    .child(userId);
-        }
+    public AdapterShow(Application application) {
+        medicamentRepository = new MedicamentRepository(application);
+        manuallyDeletedMedicamentRepository = new ManuallyDeletedMedicamentRepository(application);
+        medicamentList = new ArrayList<>();
+    }
+
+    public void setMedicamentList(List<Medicament> medicaments) {
+        medicamentList = medicaments;
+        notifyDataSetChanged();
+    }
+
+    @NonNull
+    @Override
+    public myviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.singlerow, parent, false);
+        return new myviewholder(view);
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull myviewholder holder, @SuppressLint("RecyclerView") int position, @NonNull Medicament medicament)
-    {
+    public void onBindViewHolder(@NonNull myviewholder holder, int position) {
+        Medicament medicament = medicamentList.get(position);
         holder.name.setText(medicament.getMedicamentName());
         holder.dose.setText(medicament.getMedicamentDose());
+        holder.numberOfDoses.setText(String.valueOf(medicament.getMedicamentNumberOfDoses()));
         holder.additionalInfo.setText(medicament.getMedicamentAdditionalInfo());
+
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final DialogPlus dialogPlus=DialogPlus.newDialog(view.getContext())
+                final DialogPlus dialogPlus = DialogPlus.newDialog(view.getContext())
                         .setContentHolder(new ViewHolder(R.layout.dialog_content))
-                        .setExpanded(true,1100)
+                        .setExpanded(true, 1100)
                         .create();
 
-                View myview=dialogPlus.getHolderView();
-                final EditText edtMedicamentName=myview.findViewById(R.id.edtMedicamentName);
-                final EditText edtMedicamentDose=myview.findViewById(R.id.edtMedicamentDose);
-                final EditText edtAdditionalInfo=myview.findViewById(R.id.edtMedicamentAdditionalInfo);
-                Button submit=myview.findViewById(R.id.btnSubmitMedicamentToFirebase);
+                View myview = dialogPlus.getHolderView();
+                final EditText edtMedicamentName = myview.findViewById(R.id.edtMedicamentName);
+                final EditText edtMedicamentDose = myview.findViewById(R.id.edtMedicamentDose);
+                final EditText edtMedicamentNumberOfDoses = myview.findViewById(R.id.edtMedicamentNumberOfDoses);
+                final EditText edtAdditionalInfo = myview.findViewById(R.id.edtMedicamentAdditionalInfo);
+                Button submit = myview.findViewById(R.id.btnSubmitMedicamentToFirebase);
 
                 edtMedicamentName.setText(medicament.getMedicamentName());
                 edtMedicamentDose.setText(medicament.getMedicamentDose());
+                edtMedicamentNumberOfDoses.setText(String.valueOf(medicament.getMedicamentNumberOfDoses()));
                 edtAdditionalInfo.setText(medicament.getMedicamentAdditionalInfo());
                 dialogPlus.show();
 
                 submit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Map<String,Object> map=new HashMap<>();
-                        map.put("medicamentName",edtMedicamentName.getText().toString());
-                        map.put("medicamentDose",edtMedicamentDose.getText().toString());
-                        map.put("medicamentAdditionalInfo",edtAdditionalInfo.getText().toString());
+                        Medicament updatedMedicament = new Medicament(
+                                edtMedicamentName.getText().toString(),
+                                edtMedicamentDose.getText().toString(),
+                                edtAdditionalInfo.getText().toString(),
+                                Integer.parseInt(edtMedicamentNumberOfDoses.getText().toString())
+                        );
+                        updatedMedicament.setMedicamentId(medicament.getMedicamentId());
+                        medicamentRepository.update(updatedMedicament);
 
-                        databaseReference
-                                .child(getRef(position).getKey()).updateChildren(map)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        dialogPlus.dismiss();
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        dialogPlus.dismiss();
-                                    }
-                                });
+                        dialogPlus.dismiss();
                     }
                 });
-
-
             }
         });
-
 
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder=new AlertDialog.Builder(view.getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setTitle("Potwierdzenie usunięcia");
                 builder.setMessage("Czy na pewno chcesz usunąć ten element?");
 
                 builder.setPositiveButton("Tak", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        databaseReference
-                                .child(getRef(position).getKey()).removeValue();
+                        ManuallyDeletedMedicament manuallyDeletedMedicament = new ManuallyDeletedMedicament();
+                        manuallyDeletedMedicament.setMedicamentId(medicament.getMedicamentId());
+                        manuallyDeletedMedicamentRepository.insert(manuallyDeletedMedicament);
+                        medicamentRepository.delete(medicament);
                     }
                 });
 
                 builder.setNegativeButton("Nie", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        // do nothing
                     }
                 });
 
                 builder.show();
             }
         });
-        holder.setNotification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(view.getContext(), CreateAlarmActivity.class);
-                intent.putExtra("medicament", medicament);
-                view.getContext().startActivity(intent);
-            }
-        });
-    } // End of OnBindViewMethod
-
-    @NonNull
-    @Override
-    public myviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
-    {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.singlerow,parent,false);
-        return new myviewholder(view);
     }
 
-    static class myviewholder extends RecyclerView.ViewHolder
-    { CircleImageView img;
-        ImageView edit,delete, setNotification;
-        TextView name,dose, additionalInfo;
-        public myviewholder(@NonNull View itemView)
-        {
+    @Override
+    public int getItemCount() {
+        return medicamentList.size();
+    }
+
+    static class myviewholder extends RecyclerView.ViewHolder {
+        CircleImageView img;
+        ImageView edit, delete, setNotification;
+        TextView name, dose, numberOfDoses, additionalInfo;
+
+        public myviewholder(@NonNull View itemView) {
             super(itemView);
-          //  img=(CircleImageView) itemView.findViewById(R.id.img1);
-            name=(TextView)itemView.findViewById(R.id.txtvMedicamentName);
-            dose =(TextView)itemView.findViewById(R.id.txtvMedicamentDose);
-           additionalInfo =(TextView)itemView.findViewById(R.id.txtvAdditionalInfo);
-            edit=(ImageView)itemView.findViewById(R.id.btnEdit);
-            delete=(ImageView)itemView.findViewById(R.id.btnDelete);
-            setNotification =(ImageView)itemView.findViewById(R.id.btnBuy);
+            name = itemView.findViewById(R.id.txtvMedicamentName);
+            dose = itemView.findViewById(R.id.txtvMedicamentDose);
+            numberOfDoses = itemView.findViewById(R.id.txtvMedicamentNumberOfDoses);
+            additionalInfo = itemView.findViewById(R.id.txtvAdditionalInfo);
+            edit = itemView.findViewById(R.id.btnEdit);
+            delete = itemView.findViewById(R.id.btnDelete);
+            setNotification = itemView.findViewById(R.id.btnBuy);
         }
     }
 }

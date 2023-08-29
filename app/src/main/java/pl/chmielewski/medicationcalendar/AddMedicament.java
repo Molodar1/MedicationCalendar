@@ -18,11 +18,16 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.UUID;
+
+import pl.chmielewski.medicationcalendar.data.medicament.Medicament;
+import pl.chmielewski.medicationcalendar.data.medicament.MedicamentRepository;
+
 public class AddMedicament extends AppCompatActivity {
 
     // creating variables for
     // EditText and buttons.
-    private EditText edtMedicamentName, edtMedicamentDose, edtMedicamentAdditionalInfo;
+    private EditText edtMedicamentName, edtMedicamentDose, edtMedicamentAdditionalInfo,edtMedicamentNumberOfDoses;
     private Button sendDatabtn;
     private Button btnBackMedicineAdd;
 
@@ -33,6 +38,8 @@ public class AddMedicament extends AppCompatActivity {
     // creating a variable for our Database
     // Reference for Firebase.
     DatabaseReference databaseReference;
+    private MedicamentRepository medicamentRepository;
+
 
     // creating a variable for
     // our object class
@@ -46,9 +53,12 @@ public class AddMedicament extends AppCompatActivity {
         // initializing our edittext and button
         edtMedicamentName = findViewById(R.id.editTextInputMedicineName);
         edtMedicamentDose = findViewById(R.id.editTextInputMedicineDose);
+        edtMedicamentNumberOfDoses=findViewById(R.id.editTextInputMedicineNumberOfDoses);
         edtMedicamentAdditionalInfo = findViewById(R.id.editTextInputMedicamentAdditionalInfo);
         // below line is used to get the
         // instance of our FIrebase database.
+        medicamentRepository = new MedicamentRepository(getApplication());
+
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String userId = currentUser.getUid();
@@ -80,40 +90,37 @@ public class AddMedicament extends AppCompatActivity {
                 // getting text from our edittext fields.
                 String medicamentName = edtMedicamentName.getText().toString();
                 String medicamentDose = edtMedicamentDose.getText().toString();
+                String medicamentNumberOfDoses=edtMedicamentNumberOfDoses.getText().toString();
                 String medicamentAdditionalInfo = edtMedicamentAdditionalInfo.getText().toString();
                 // String cost =  //Double.parseDouble(costString);
                 if (TextUtils.isEmpty(medicamentName) || TextUtils.isEmpty(medicamentDose) ) {
                     Toast.makeText(AddMedicament.this, "Pola z nazwą i dawką leku muszą zostać uzupełnione.", Toast.LENGTH_SHORT).show();
                 } else {
-                    addDatatoFirebase(medicamentName, medicamentDose, medicamentAdditionalInfo);
+                    addDataToFirebaseAndLocalDatabase(medicamentName, medicamentDose, medicamentNumberOfDoses, medicamentAdditionalInfo);
                 }
             }
         });
     }
 
-    private void addDatatoFirebase(String medicamentName, String medicamentDose, String medicamentAdditionalInfo) {
-        // below 3 lines of code is used to set
-        // data in our object class.
-       // HashMap<String, Object> medicineHashmap = new HashMap<>();
-        //  String medicineId = databaseReference.push().getKey();
-        String medicamentId = databaseReference.push().getKey();
-        medicament.setMedicamentName(medicamentName);
-        medicament.setMedicamentDose(medicamentDose);
-        medicament.setMedicamentAdditionalInfo(medicamentAdditionalInfo);
+    private void addDataToFirebaseAndLocalDatabase(String medicamentName, String medicamentDose,  String medicamentNumberOfDoses,String medicamentAdditionalInfo) {
+        Medicament newMedicament = new Medicament(medicamentName, medicamentDose, medicamentAdditionalInfo, Integer.parseInt(medicamentNumberOfDoses));
+        String medicamentId=UUID.randomUUID().toString();
+        newMedicament.setMedicamentId(medicamentId);
+        medicamentRepository.insert(newMedicament);
 
-        //medicineHashmap.put("medicamentId",medicamentId);
-        //medicineHashmap.put( medicamentId,medicineInfo);
-        // we are use add value event listener method
-        // which is called with database reference.
-        databaseReference.child(medicamentId).setValue(medicament).addOnCompleteListener(new OnCompleteListener<Void>() {
-  @Override
-  public void onComplete(@NonNull Task<Void> task) {
-      Toast.makeText(AddMedicament.this, "lek dodany", Toast.LENGTH_SHORT).show();
-      edtMedicamentName.getText().clear();
-      edtMedicamentDose.getText().clear();
-      edtMedicamentAdditionalInfo.getText().clear();
-  }
-}
-        );
+//        medicament.setMedicamentName(medicamentName);
+//        medicament.setMedicamentDose(medicamentDose);
+//        medicament.setMedicamentNumberOfDoses(Integer.parseInt(medicamentNumberOfDoses));
+//        medicament.setMedicamentAdditionalInfo(medicamentAdditionalInfo);
+//        databaseReference.child(medicamentId).setValue(medicament).addOnCompleteListener(new OnCompleteListener<Void>() {
+//  @Override
+//  public void onComplete(@NonNull Task<Void> task) {
+//      Toast.makeText(AddMedicament.this, "lek dodany", Toast.LENGTH_SHORT).show();
+//      edtMedicamentName.getText().clear();
+//      edtMedicamentDose.getText().clear();
+//      edtMedicamentAdditionalInfo.getText().clear();
+//  }
+//}
+//        );
     }
 }

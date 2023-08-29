@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import pl.chmielewski.medicationcalendar.R;
-import pl.chmielewski.medicationcalendar.data.Alarm;
+import pl.chmielewski.medicationcalendar.data.alarm.Alarm;
 
 
 public class AlarmViewHolder extends RecyclerView.ViewHolder {

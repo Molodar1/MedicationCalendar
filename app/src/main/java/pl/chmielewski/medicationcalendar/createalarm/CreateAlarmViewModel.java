@@ -5,8 +5,8 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
-import pl.chmielewski.medicationcalendar.data.Alarm;
-import pl.chmielewski.medicationcalendar.data.AlarmRepository;
+import pl.chmielewski.medicationcalendar.data.alarm.Alarm;
+import pl.chmielewski.medicationcalendar.data.alarm.AlarmRepository;
 
 
 public class CreateAlarmViewModel extends AndroidViewModel {

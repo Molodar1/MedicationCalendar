@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
-import pl.chmielewski.medicationcalendar.data.Alarm;
+import pl.chmielewski.medicationcalendar.data.alarm.Alarm;
 import pl.chmielewski.medicationcalendar.service.AlarmService;
 import pl.chmielewski.medicationcalendar.service.RescheduleAlarmsService;
 
@@ -24,7 +24,10 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
     public static final String SUNDAY = "SUNDAY";
     public static final String RECURRING = "RECURRING";
     public static final String MEDICAMENT_NAME = "MEDICAMENT_NAME";
+    public static final String MEDICAMENT_KEY = "MEDICAMENT_KEY";
+    public static final String USER_ID = "USER_ID";
     public static final String MEDICAMENT_DOSE = "MEDICAMENT_DOSE";
+    public static final String MEDICAMENT_NUMBER_OF_DOSES = "MEDICAMENT_NUMBER_OF_DOSES";
     public static final String MEDICAMENT_ADDITIONAL_INFO = "MEDICAMENT_ADDITIONAL_INFO";
     public static final String ALARM_ID = "ALARM_ID";
 
@@ -111,9 +114,12 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         Intent intentService = new Intent(context, AlarmService.class);
         Alarm alarm = (Alarm) intent.getSerializableExtra("ALARM_OBJECT");
         intentService.putExtra(MEDICAMENT_NAME, intent.getStringExtra(MEDICAMENT_NAME));
+        intentService.putExtra(MEDICAMENT_KEY, intent.getStringExtra(MEDICAMENT_KEY));
         intentService.putExtra(MEDICAMENT_DOSE, intent.getStringExtra(MEDICAMENT_DOSE));
+        intentService.putExtra(MEDICAMENT_NUMBER_OF_DOSES, intent.getStringExtra(MEDICAMENT_NUMBER_OF_DOSES));
         intentService.putExtra(MEDICAMENT_ADDITIONAL_INFO, intent.getStringExtra(MEDICAMENT_ADDITIONAL_INFO));
         intentService.putExtra(ALARM_ID, intent.getIntExtra(ALARM_ID,0));
+        intentService.putExtra(USER_ID, intent.getStringExtra(USER_ID));
         intentService.putExtra("ALARM_OBJECT",alarm);
         context.startForegroundService(intentService);
     }

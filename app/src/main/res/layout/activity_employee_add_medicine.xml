@@ -40,6 +40,21 @@
         android:minHeight="48dp"
         android:scaleType="center"
         />
+    <EditText
+        android:id="@+id/editTextInputMedicineNumberOfDoses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextInputMedicineDose"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:hint="@string/txt_input_medicament_number_of_doses"
+        android:importantForAutofill="no"
+        android:inputType="numberDecimal"
+        android:minHeight="48dp"
+        android:scaleType="center"
+        />
 
     <!--Button for adding data to Firebase-->
     <EditText
@@ -47,7 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/editTextInputMedicineDose"
+        android:layout_below="@id/editTextInputMedicineNumberOfDoses"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
