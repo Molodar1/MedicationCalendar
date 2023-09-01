@@ -38,4 +38,7 @@ public class MedicamentRepository {
             medicamentDao.delete(medicament);
         });
     }
+    public Medicament getMedicamentByIdSync(String medicamentId) {
+        return medicamentDao.getMedicamentByIdSync(medicamentId);
+    }
 }

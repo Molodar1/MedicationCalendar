@@ -19,6 +19,8 @@ public interface MedicamentDao {
 
     @Query("SELECT * FROM medicament_table ORDER BY medicamentName ASC")
     LiveData<List<Medicament>> getMedicaments();
+    @Query("SELECT * FROM medicament_table WHERE medicamentId = :medicamentId LIMIT 1")
+    Medicament getMedicamentByIdSync(String medicamentId);
 
     @Update
     void update(Medicament medicament);

@@ -1,8 +1,11 @@
 package pl.chmielewski.medicationcalendar;
 
+import static java.lang.Integer.parseInt;
+
 import android.app.AlertDialog;
 import android.app.Application;
 import android.content.DialogInterface;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -81,16 +85,32 @@ public class AdapterShow extends RecyclerView.Adapter<AdapterShow.myviewholder> 
                 submit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Medicament updatedMedicament = new Medicament(
-                                edtMedicamentName.getText().toString(),
-                                edtMedicamentDose.getText().toString(),
-                                edtAdditionalInfo.getText().toString(),
-                                Integer.parseInt(edtMedicamentNumberOfDoses.getText().toString())
-                        );
-                        updatedMedicament.setMedicamentId(medicament.getMedicamentId());
-                        medicamentRepository.update(updatedMedicament);
+                        String medicamentName= edtMedicamentName.getText().toString();
+                        String medicamentDose= edtMedicamentDose.getText().toString();
+                        String medicamentAdditionalInfo= edtAdditionalInfo.getText().toString();
+                       String medicamentNumberOfDoses = edtMedicamentNumberOfDoses.getText().toString();
 
-                        dialogPlus.dismiss();
+                        if (TextUtils.isEmpty(medicamentName) || TextUtils.isEmpty(medicamentDose) || TextUtils.isEmpty(medicamentNumberOfDoses)) {
+                            Toast.makeText(view.getContext(), "Wszystkie pola muszą być uzupełnione", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Medicament updatedMedicament = new Medicament(
+                                    medicamentName,
+                                    medicamentDose,
+                                    medicamentAdditionalInfo,
+                                    Integer.parseInt(medicamentNumberOfDoses)
+                            );
+                            updatedMedicament.setMedicamentId(medicament.getMedicamentId());
+                            try {
+                                medicamentRepository.update(updatedMedicament);
+                                Toast.makeText(view.getContext(), "Lek został zaktualizowany", Toast.LENGTH_SHORT).show();
+                                dialogPlus.dismiss();
+                            }catch (Exception e){
+                                Toast.makeText(view.getContext(), "Wystąpił błąd podczas aktualizacji leku", Toast.LENGTH_SHORT).show();
+                                dialogPlus.dismiss();
+                            }
+
+                        }
+
                     }
                 });
             }

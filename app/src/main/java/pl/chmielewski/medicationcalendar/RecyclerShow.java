@@ -65,6 +65,7 @@ public class RecyclerShow extends AppCompatActivity
         recview=findViewById(R.id.recview);
         recview.setLayoutManager(new LinearLayoutManager(this));
         recview.setAdapter(adapter);
+
         medicamentRepository.getMedicamentsLiveData().observe(this, new Observer<List<Medicament>>() {
             @Override
             public void onChanged(List<Medicament> medicaments) {
@@ -92,7 +93,11 @@ public class RecyclerShow extends AppCompatActivity
                                     if (!containsManuallyDeletedMedicament(medicamentId)) {
                                         // Jeżeli wpisu nie ma w tabeli ManuallyDeletedMedicament, zapisz go w lokalnej bazie danych
                                         Medicament medicament = snapshot.getValue(Medicament.class);
-                                        medicamentRepository.insert(medicament);
+                                        if (medicamentRepository.getMedicamentByIdSync(medicament.getMedicamentId())==null) {
+                                            medicamentRepository.insert(medicament);
+                                        }
+
+
                                     }else {
                                         snapshot.getRef().removeValue();
                                     }

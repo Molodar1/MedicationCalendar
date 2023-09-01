@@ -1,6 +1,5 @@
 package pl.chmielewski.medicationcalendar;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,8 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -96,31 +93,29 @@ public class AddMedicament extends AppCompatActivity {
                 if (TextUtils.isEmpty(medicamentName) || TextUtils.isEmpty(medicamentDose) ) {
                     Toast.makeText(AddMedicament.this, "Pola z nazwą i dawką leku muszą zostać uzupełnione.", Toast.LENGTH_SHORT).show();
                 } else {
-                    addDataToFirebaseAndLocalDatabase(medicamentName, medicamentDose, medicamentNumberOfDoses, medicamentAdditionalInfo);
+                    addDataToLocalDatabase(medicamentName, medicamentDose, medicamentNumberOfDoses, medicamentAdditionalInfo);
                 }
             }
         });
     }
 
-    private void addDataToFirebaseAndLocalDatabase(String medicamentName, String medicamentDose,  String medicamentNumberOfDoses,String medicamentAdditionalInfo) {
-        Medicament newMedicament = new Medicament(medicamentName, medicamentDose, medicamentAdditionalInfo, Integer.parseInt(medicamentNumberOfDoses));
-        String medicamentId=UUID.randomUUID().toString();
-        newMedicament.setMedicamentId(medicamentId);
-        medicamentRepository.insert(newMedicament);
+    private void addDataToLocalDatabase(String medicamentName, String medicamentDose, String medicamentNumberOfDoses, String medicamentAdditionalInfo) {
+        if (TextUtils.isEmpty(medicamentName) || TextUtils.isEmpty(medicamentDose) || TextUtils.isEmpty(medicamentNumberOfDoses)) {
+            Toast.makeText(AddMedicament.this, "Wszystkie pola muszą być uzupełnione", Toast.LENGTH_SHORT).show();
+        } else {
+            Medicament newMedicament = new Medicament(medicamentName, medicamentDose, medicamentAdditionalInfo, Integer.parseInt(medicamentNumberOfDoses));
+            String medicamentId = UUID.randomUUID().toString();
+            newMedicament.setMedicamentId(medicamentId);
 
-//        medicament.setMedicamentName(medicamentName);
-//        medicament.setMedicamentDose(medicamentDose);
-//        medicament.setMedicamentNumberOfDoses(Integer.parseInt(medicamentNumberOfDoses));
-//        medicament.setMedicamentAdditionalInfo(medicamentAdditionalInfo);
-//        databaseReference.child(medicamentId).setValue(medicament).addOnCompleteListener(new OnCompleteListener<Void>() {
-//  @Override
-//  public void onComplete(@NonNull Task<Void> task) {
-//      Toast.makeText(AddMedicament.this, "lek dodany", Toast.LENGTH_SHORT).show();
-//      edtMedicamentName.getText().clear();
-//      edtMedicamentDose.getText().clear();
-//      edtMedicamentAdditionalInfo.getText().clear();
-//  }
-//}
-//        );
+            try {
+                medicamentRepository.insert(newMedicament);
+                Toast.makeText(AddMedicament.this, "lek został dodany", Toast.LENGTH_SHORT).show();
+                finish();
+            } catch (Exception e) {
+                Toast.makeText(AddMedicament.this, "Wystąpił błąd podczas dodawania leku", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+        }
     }
+
 }
