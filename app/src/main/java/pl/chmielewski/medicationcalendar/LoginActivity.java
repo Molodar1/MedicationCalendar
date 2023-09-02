@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,7 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
-    TextView createNewAccount;
+    TextView createNewAccount,continueWithoutLogin;
     EditText inputEmail, inputPassword;
     Button btnLogin;
     ProgressDialog progressDialog;
@@ -31,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         createNewAccount = findViewById(R.id.alreadyHaveAccountTextView);
-
+        continueWithoutLogin=findViewById(R.id.continueWithoutLoginTextView);
         inputEmail = findViewById(R.id.inputEmailLoginTextView);
         inputPassword = findViewById(R.id.inputPasswordTextView);
         btnLogin = findViewById(R.id.loginButton);
@@ -40,6 +41,17 @@ public class LoginActivity extends AppCompatActivity {
         firebaseUser = firebaseAuth.getCurrentUser();
         createNewAccount.setOnClickListener(view -> startActivity(new Intent(LoginActivity.this, RegistrationActivity.class)));
         btnLogin.setOnClickListener(view -> performLogin());
+        continueWithoutLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Przenieś użytkownika do aktywności RecyclerShow
+                sendUserToNextActivity();
+                finish();
+            }
+        });
+        if (firebaseUser!=null){
+            sendUserToNextActivity();
+        }
     }
 
     private void performLogin() {

@@ -202,6 +202,20 @@
                 app:layout_constraintTop_toTopOf="@+id/facebookButton"
                 app:srcCompat="@drawable/twitter_logo" />
 
+            <TextView
+                android:id="@+id/continueWithoutLoginTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/continue_without_login"
+                android:textColor="@color/main_color"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="@+id/loginButton"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="@+id/loginButton"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/facebookButton"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

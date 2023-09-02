@@ -3,8 +3,11 @@ package pl.chmielewski.medicationcalendar;
 import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -116,24 +119,39 @@ public class RecyclerShow extends AppCompatActivity
             }
         });
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationViewEmployee);
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem logoutItem = menu.findItem(R.id.action_logout);
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            logoutItem.setTitle("Wyloguj");
+        } else {
+            logoutItem.setTitle("Zaloguj");
+        }
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int itemId = item.getItemId();
-                if(itemId == R.id.action_dodaj){
+                if (itemId == R.id.action_dodaj) {
                     startActivity(new Intent(RecyclerShow.this, AddMedicament.class));
                     return true;
-                } else if (itemId==R.id.action_alarms) {
+                } else if (itemId == R.id.action_alarms) {
                     startActivity(new Intent(RecyclerShow.this, AlarmsListActivity.class));
                     return true;
                 } else if (itemId == R.id.action_logout) {
-                    FirebaseAuth.getInstance().signOut();
-                    Intent intent = new Intent(RecyclerShow.this, LoginActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    return true;
-                }else
+                    if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                        // Wyloguj użytkownika
+                        FirebaseAuth.getInstance().signOut();
+                        Intent intent = new Intent(RecyclerShow.this, LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        return true;
+                    } else {
+                        // Przenieś użytkownika do aktywności logowania
+                        Intent intent = new Intent(RecyclerShow.this, LoginActivity.class);
+                        startActivity(intent);
+                        return true;
+                    }
+                } else
                     return false;
             }
         });
@@ -161,18 +179,12 @@ public class RecyclerShow extends AppCompatActivity
                 adapter.setMedicamentList(filteredList);
             }
         });
-
-
-
-        FirebaseRecyclerOptions<Medicament> options =
-                new FirebaseRecyclerOptions.Builder<Medicament>()
-                        .setQuery(databaseReference, Medicament.class)
-                        .build();
         adapter=new AdapterShow(getApplication());
         recview.setAdapter(adapter);
 
 
     }
+
     private boolean containsMedicament(List<Medicament> medicaments, String medicamentId) {
     for (Medicament medicament : medicaments) {
         if (medicament.getMedicamentId().equals(medicamentId)) {
