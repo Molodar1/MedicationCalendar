@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import java.util.List;
@@ -16,9 +17,9 @@ public interface AlarmDao {
 
     @Query("DELETE FROM alarm_table")
     void deleteAll();
-
+    @Transaction
     @Query("SELECT * FROM alarm_table ORDER BY created ASC")
-    LiveData<List<Alarm>> getAlarms();
+    LiveData<List<Alarm>> getAlarmsWithMedicamentsLiveData();
 
     @Update
     void update(Alarm alarm);

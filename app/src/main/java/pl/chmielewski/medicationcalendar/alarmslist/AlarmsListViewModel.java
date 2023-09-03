@@ -19,7 +19,7 @@ public class AlarmsListViewModel extends AndroidViewModel {
         super(application);
 
         alarmRepository = new AlarmRepository(application);
-        alarmsLiveData = alarmRepository.getAlarmsLiveData();
+        alarmsLiveData = alarmRepository.getAlarmsWithMedicamentsLiveData();
     }
 
     public void update(Alarm alarm) {

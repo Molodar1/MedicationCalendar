@@ -25,7 +25,7 @@ public class RescheduleAlarmsService extends LifecycleService {
 
         AlarmRepository alarmRepository = new AlarmRepository(getApplication());
 
-        alarmRepository.getAlarmsLiveData().observe(this, new Observer<List<Alarm>>() {
+        alarmRepository.getAlarmsWithMedicamentsLiveData().observe(this, new Observer<List<Alarm>>() {
             @Override
             public void onChanged(List<Alarm> alarms) {
                 for (Alarm a : alarms) {

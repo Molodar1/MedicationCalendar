@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
@@ -21,6 +22,7 @@ import java.util.Random;
 
 import pl.chmielewski.medicationcalendar.data.medicament.Medicament;
 import pl.chmielewski.medicationcalendar.data.alarm.Alarm;
+import pl.chmielewski.medicationcalendar.data.medicament.MedicamentRepository;
 import pl.chmielewski.medicationcalendar.databinding.ActivityRingBinding;
 import pl.chmielewski.medicationcalendar.service.AlarmService;
 
@@ -30,29 +32,25 @@ public class RingActivity extends AppCompatActivity {
     DatabaseReference medicamentNumberOfDosesRef;
     private String medicamentName,medicamentDose,medicamentAdditionalInfo,userId,medicamentKey,medicamentNumberOfDoses;
     private int medicamentNumberOfDosesFromDB;
+    private MedicamentRepository medicamentRepository;
+    private Alarm alarm;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityRingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        System.out.println(medicamentKey);
-        userId=getIntent().getStringExtra("USER_ID");
-        medicamentKey=getIntent().getStringExtra("MEDICAMENT_KEY");
-        //medicamentKey.replace("-","");
-        if(userId!=null){
-            getMedicineNumberOfDosesFromDB();
-        }
-        else {
-            medicamentNumberOfDoses=getIntent().getStringExtra("MEDICAMENT_NUMBER_OF_DOSES");
-            binding.textViewmedicamentNumberOfDoses.setText(String.valueOf(medicamentNumberOfDoses));
-        }
+        medicamentRepository = new MedicamentRepository(getApplication());
+        Medicament medicament=(Medicament) getIntent().getSerializableExtra("MEDICAMENT_OBJECT");
+        alarm=(Alarm) getIntent().getSerializableExtra("ALARM_OBJECT");
+            getMedicineNumberOfDosesFromDB(medicament);
+
 
         String alarmText = getIntent().getStringExtra("alarmText");
         if (alarmText!=null){
             String[] alarmTextParts = alarmText.split("\n");
             if (alarmTextParts[0]!=null){
-                medicamentName=alarmTextParts[0].replace("Nazwa leku: ", "");
+                medicamentName=medicament.getMedicamentName();
                 binding.textViewMedicamentName.setText(medicamentName);
             }else medicamentName="";
             if (alarmTextParts[1]!=null){
@@ -85,11 +83,6 @@ public class RingActivity extends AppCompatActivity {
                         new Random().nextInt(Integer.MAX_VALUE),
                         calendar.get(Calendar.HOUR_OF_DAY),
                         calendar.get(Calendar.MINUTE),
-                        medicamentName,
-                        medicamentDose,
-                        medicamentNumberOfDoses,
-                        medicamentAdditionalInfo,
-                        System.currentTimeMillis(),
                         true,
                         false,
                         false,
@@ -98,7 +91,10 @@ public class RingActivity extends AppCompatActivity {
                         false,
                         false,
                         false,
-                        false
+                        false,
+                        System.currentTimeMillis(),
+                        medicament,
+                        true
                 );
                 alarm.schedule(getApplicationContext());
 
@@ -111,30 +107,36 @@ public class RingActivity extends AppCompatActivity {
         animateClock();
     }
 
-    private void getMedicineNumberOfDosesFromDB() {
-        medicamentNumberOfDosesRef= FirebaseDatabase.getInstance().getReference("Medicament")
-                .child(userId)
-                .child(medicamentKey);
-        medicamentNumberOfDosesRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // Tutaj możesz pobrać wartość "medicamentNumberOfDoses" z dataSnapshot
-                if (dataSnapshot.exists()) {
-                    Medicament medicament=dataSnapshot.getValue(Medicament.class);
-                   medicamentNumberOfDosesFromDB = medicament.getMedicamentNumberOfDoses();
-                   medicamentNumberOfDosesFromDB--;
-                    medicamentNumberOfDoses=String.valueOf(medicamentNumberOfDosesFromDB);
-                    binding.textViewmedicamentNumberOfDoses.setText(medicamentNumberOfDoses);
+    private void getMedicineNumberOfDosesFromDB(Medicament passedMedicament) {
+        Medicament medicamentFromDB = medicamentRepository.getMedicamentByIdSync(passedMedicament.getMedicamentId());
+        if (medicamentFromDB != null) {
+            int medicamentNumberOfDosesFromDB = medicamentFromDB.getMedicamentNumberOfDoses();
+            if (!alarm.isSnoozed()){
+                medicamentNumberOfDosesFromDB--;
+            }
+            if (medicamentNumberOfDosesFromDB<0){
+                medicamentNumberOfDosesFromDB=0;
+            }
 
+            medicamentFromDB.setMedicamentNumberOfDoses(medicamentNumberOfDosesFromDB);
+            medicamentRepository.update(medicamentFromDB);
+            if (medicamentNumberOfDosesFromDB<=5){
+                if (medicamentNumberOfDosesFromDB==0){
+                    binding.textViewmedicamentNumberOfDoses.setText("BRAK KOLEJNYCH DAWEK LEKU!");
+                    binding.textViewmedicamentNumberOfDoses.setTextColor(Color.RED);
                 }
-
+                else {
+                    medicamentNumberOfDoses = String.valueOf(medicamentNumberOfDosesFromDB);
+                    binding.textViewmedicamentNumberOfDoses.setText("LICZBA POZOSTAŁYCH DAWEK: "+medicamentNumberOfDoses);
+                    binding.textViewmedicamentNumberOfDoses.setTextColor(Color.RED);
+                }
+            } else {
+                medicamentNumberOfDoses = String.valueOf(medicamentNumberOfDosesFromDB);
+                binding.textViewmedicamentNumberOfDoses.setText("Pozostało: "+medicamentNumberOfDoses+" dawek leku.");
             }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Obsługa błędu
-            }
-        });
+
+        }
     }
 
     private void animateClock() {

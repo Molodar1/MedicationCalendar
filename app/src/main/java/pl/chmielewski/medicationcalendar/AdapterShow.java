@@ -5,6 +5,7 @@ import static java.lang.Integer.parseInt;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import pl.chmielewski.medicationcalendar.createalarm.CreateAlarmActivity;
 import pl.chmielewski.medicationcalendar.data.manuallyDeletedMedicament.ManuallyDeletedMedicament;
 import pl.chmielewski.medicationcalendar.data.manuallyDeletedMedicament.ManuallyDeletedMedicamentRepository;
 import pl.chmielewski.medicationcalendar.data.medicament.Medicament;
@@ -85,10 +87,10 @@ public class AdapterShow extends RecyclerView.Adapter<AdapterShow.myviewholder> 
                 submit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String medicamentName= edtMedicamentName.getText().toString();
-                        String medicamentDose= edtMedicamentDose.getText().toString();
-                        String medicamentAdditionalInfo= edtAdditionalInfo.getText().toString();
-                       String medicamentNumberOfDoses = edtMedicamentNumberOfDoses.getText().toString();
+                        String medicamentName = edtMedicamentName.getText().toString();
+                        String medicamentDose = edtMedicamentDose.getText().toString();
+                        String medicamentAdditionalInfo = edtAdditionalInfo.getText().toString();
+                        String medicamentNumberOfDoses = edtMedicamentNumberOfDoses.getText().toString();
 
                         if (TextUtils.isEmpty(medicamentName) || TextUtils.isEmpty(medicamentDose) || TextUtils.isEmpty(medicamentNumberOfDoses)) {
                             Toast.makeText(view.getContext(), "Wszystkie pola muszą być uzupełnione", Toast.LENGTH_SHORT).show();
@@ -104,7 +106,7 @@ public class AdapterShow extends RecyclerView.Adapter<AdapterShow.myviewholder> 
                                 medicamentRepository.update(updatedMedicament);
                                 Toast.makeText(view.getContext(), "Lek został zaktualizowany", Toast.LENGTH_SHORT).show();
                                 dialogPlus.dismiss();
-                            }catch (Exception e){
+                            } catch (Exception e) {
                                 Toast.makeText(view.getContext(), "Wystąpił błąd podczas aktualizacji leku", Toast.LENGTH_SHORT).show();
                                 dialogPlus.dismiss();
                             }
@@ -141,6 +143,15 @@ public class AdapterShow extends RecyclerView.Adapter<AdapterShow.myviewholder> 
                 });
 
                 builder.show();
+            }
+        });
+        holder.setNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(view.getContext(), CreateAlarmActivity.class);
+                intent.putExtra("medicament", medicament);
+                view.getContext().startActivity(intent);
             }
         });
     }

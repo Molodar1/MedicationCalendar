@@ -54,8 +54,8 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
             alarmRecurringDays.setText("Jednorazowy");
         }
 
-        if (alarm.getMedicamentName().length() != 0) {
-            alarmTitle.setText(String.format("%s\nDawka leku: %s", alarm.getMedicamentName(),alarm.getMedicamentDose()));
+        if (alarm.getMedicament().getMedicamentName().length() != 0) {
+            alarmTitle.setText(String.format("%s\nDawka leku: %s", alarm.getMedicament().getMedicamentName(),alarm.getMedicament().getMedicamentDose()));
         } else {
             alarmTitle.setText(String.format("%s | %d", "Alarm", alarm.getAlarmId()));
         }

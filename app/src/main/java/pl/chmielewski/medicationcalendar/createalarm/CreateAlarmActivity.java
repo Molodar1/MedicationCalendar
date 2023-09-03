@@ -67,8 +67,6 @@ public class CreateAlarmActivity extends AppCompatActivity {
         });
         Intent intent = getIntent();
         medicamentFromIntent = (Medicament) intent.getSerializableExtra("medicament");
-        medicamentFromIntentKey = intent.getStringExtra("medicament_key");
-        userId=intent.getStringExtra("user_id");
 
         if (medicamentFromIntent != null) {
             String medicamentFromIntentName,medicamentFromIntentDose,medicamentFromIntentAdditionalInfo;
@@ -97,15 +95,8 @@ public class CreateAlarmActivity extends AppCompatActivity {
 
         Alarm alarm = new Alarm(
                 alarmId,
-                userId,
                 binding.fragmentCreatealarmTimePicker.getHour(),
                 binding.fragmentCreatealarmTimePicker.getMinute(),
-                medicamentFromIntentKey,
-                binding.fragmentCreatealarmTitle.getText().toString(),
-                binding.fragmentCreatealarmDose.getText().toString(),
-                binding.fragmentCreatealarmNumberOfDoses.getText().toString(),
-                binding.fragmentCreatealarmAdditionalInfo.getText().toString(),
-                System.currentTimeMillis(),
                 true,
                 binding.fragmentCreatealarmRecurring.isChecked(),
                 binding.fragmentCreatealarmCheckMon.isChecked(),
@@ -114,7 +105,9 @@ public class CreateAlarmActivity extends AppCompatActivity {
                 binding.fragmentCreatealarmCheckThu.isChecked(),
                 binding.fragmentCreatealarmCheckFri.isChecked(),
                 binding.fragmentCreatealarmCheckSat.isChecked(),
-                binding.fragmentCreatealarmCheckSun.isChecked()
+                binding.fragmentCreatealarmCheckSun.isChecked(),
+                System.currentTimeMillis(),
+                medicamentFromIntent
         );
 
         createAlarmViewModel.insert(alarm);

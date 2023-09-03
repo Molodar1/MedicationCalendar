@@ -4,18 +4,13 @@ package pl.chmielewski.medicationcalendar.data.alarm;
 
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ID;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.FRIDAY;
-import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_ADDITIONAL_INFO;
-import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_DOSE;
-import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_KEY;
-import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_NUMBER_OF_DOSES;
+
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MONDAY;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.RECURRING;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.SATURDAY;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.SUNDAY;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.THURSDAY;
-import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_NAME;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.TUESDAY;
-import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.USER_ID;
 import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.WEDNESDAY;
 
 import android.app.AlarmManager;
@@ -27,6 +22,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -35,6 +31,7 @@ import java.io.Serializable;
 import java.util.Calendar;
 
 import pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver;
+import pl.chmielewski.medicationcalendar.data.medicament.Medicament;
 
 @Entity(tableName = "alarm_table")
 public class Alarm implements Serializable {
@@ -42,27 +39,20 @@ public class Alarm implements Serializable {
     @PrimaryKey
     @NonNull
     private int alarmId;
-    private String userId;
     private int hour, minute;
     private boolean started, recurring;
     private boolean monday, tuesday, wednesday, thursday, friday, saturday, sunday;
-    private String medicamentName,medicamentKey;
     private long created;
-    private String medicamentDose;
-    private String medicamentNumberOfDoses;
-    private String medicamentAdditionalInfo;
+    @Embedded
+    private Medicament medicament;
+    private boolean snoozed;
 
-
-
-    public Alarm(int alarmId, String userId, int hour, int minute,String medicamentKey, String medicamentName, String medicamentDose, String medicamentNumberOfDoses, String medicamentAdditionalInfo, long created, boolean started, boolean recurring, boolean monday, boolean tuesday, boolean wednesday, boolean thursday, boolean friday, boolean saturday, boolean sunday) {
+    public Alarm(int alarmId, int hour, int minute, boolean started, boolean recurring, boolean monday, boolean tuesday, boolean wednesday, boolean thursday, boolean friday, boolean saturday, boolean sunday, long created, Medicament medicament) {
         this.alarmId = alarmId;
-        this.userId=userId;
         this.hour = hour;
         this.minute = minute;
         this.started = started;
-
         this.recurring = recurring;
-
         this.monday = monday;
         this.tuesday = tuesday;
         this.wednesday = wednesday;
@@ -70,23 +60,17 @@ public class Alarm implements Serializable {
         this.friday = friday;
         this.saturday = saturday;
         this.sunday = sunday;
-        this.medicamentKey=medicamentKey;
-        this.medicamentName = medicamentName;
-        this.medicamentDose=medicamentDose;
-        this.medicamentNumberOfDoses=medicamentNumberOfDoses;
-        this.medicamentAdditionalInfo=medicamentAdditionalInfo;
-
         this.created = created;
+        this.medicament = medicament;
     }
+
     @Ignore
-    public Alarm(int alarmId, int hour, int minute, String medicamentName, String medicamentDose, String medicamentNumberOfDoses, String medicamentAdditionalInfo, long created, boolean started, boolean recurring, boolean monday, boolean tuesday, boolean wednesday, boolean thursday, boolean friday, boolean saturday, boolean sunday) {
+    public Alarm(int alarmId, int hour, int minute, boolean started, boolean recurring, boolean monday, boolean tuesday, boolean wednesday, boolean thursday, boolean friday, boolean saturday, boolean sunday, long created, Medicament medicament, boolean snoozed) {
         this.alarmId = alarmId;
         this.hour = hour;
         this.minute = minute;
         this.started = started;
-
         this.recurring = recurring;
-
         this.monday = monday;
         this.tuesday = tuesday;
         this.wednesday = wednesday;
@@ -94,37 +78,11 @@ public class Alarm implements Serializable {
         this.friday = friday;
         this.saturday = saturday;
         this.sunday = sunday;
-        this.medicamentName = medicamentName;
-        this.medicamentDose=medicamentDose;
-        this.medicamentNumberOfDoses=medicamentNumberOfDoses;
-        this.medicamentAdditionalInfo=medicamentAdditionalInfo;
-
         this.created = created;
+        this.medicament = medicament;
+        this.snoozed = snoozed;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getMedicamentKey() {
-        return medicamentKey;
-    }
-
-    public void setMedicamentKey(String medicamentKey) {
-        this.medicamentKey = medicamentKey;
-    }
-
-    public String getMedicamentNumberOfDoses() {
-        return medicamentNumberOfDoses;
-    }
-
-    public void setMedicamentNumberOfDoses(String medicamentNumberOfDoses) {
-        this.medicamentNumberOfDoses = medicamentNumberOfDoses;
-    }
     public int getHour() {
         return hour;
     }
@@ -177,20 +135,20 @@ public class Alarm implements Serializable {
         return sunday;
     }
 
-    public String getMedicamentDose() {
-        return medicamentDose;
+    public Medicament getMedicament() {
+        return medicament;
     }
 
-    public void setMedicamentDose(String medicamentDose) {
-        this.medicamentDose = medicamentDose;
+    public void setMedicament(Medicament medicament) {
+        this.medicament = medicament;
     }
 
-    public String getMedicamentAdditionalInfo() {
-        return medicamentAdditionalInfo;
+    public boolean isSnoozed() {
+        return snoozed;
     }
 
-    public void setMedicamentAdditionalInfo(String medicamentAdditionalInfo) {
-        this.medicamentAdditionalInfo = medicamentAdditionalInfo;
+    public void setSnoozed(boolean snoozed) {
+        this.snoozed = snoozed;
     }
 
     public void schedule(Context context) {
@@ -206,12 +164,7 @@ public class Alarm implements Serializable {
         intent.putExtra(SATURDAY, saturday);
         intent.putExtra(SUNDAY, sunday);
         intent.putExtra("ALARM_OBJECT", this);
-        intent.putExtra(USER_ID,userId);
-        intent.putExtra(MEDICAMENT_KEY,medicamentKey);
-        intent.putExtra(MEDICAMENT_NAME, medicamentName);
-        intent.putExtra(MEDICAMENT_DOSE, medicamentDose);
-        intent.putExtra(MEDICAMENT_NUMBER_OF_DOSES, medicamentNumberOfDoses);
-        intent.putExtra(MEDICAMENT_ADDITIONAL_INFO, medicamentAdditionalInfo);
+        intent.putExtra("MEDICAMENT_OBJECT",medicament);
         intent.putExtra(ALARM_ID,alarmId);
 
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, alarmId, intent, PendingIntent.FLAG_IMMUTABLE);
@@ -231,7 +184,7 @@ public class Alarm implements Serializable {
         if (!recurring) {
             String toastText = null;
             try {
-                toastText = String.format("Jednorazowy Alarm %s został ustawiony", medicamentName);
+                toastText = String.format("Jednorazowy Alarm %s został ustawiony", medicament.getMedicamentName());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -258,7 +211,7 @@ public class Alarm implements Serializable {
             }
         }
         else {
-                String toastText = String.format("Cykliczny Alarm %s ustawiony na dni: %s o godz. %02d:%02d", medicamentName, getRecurringDaysText(), hour, minute, alarmId);
+                String toastText = String.format("Cykliczny Alarm %s ustawiony na dni: %s o godz. %02d:%02d", medicament.getMedicamentName(), getRecurringDaysText(), hour, minute, alarmId);
                 Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
 
                 final long RUN_DAILY = 24 * 60 * 60 * 1000;
@@ -280,7 +233,7 @@ public class Alarm implements Serializable {
         alarmManager.cancel(alarmPendingIntent);
         this.started = false;
 
-        String toastText = String.format("Alarm %s na godzine %02d:%02d został anulowany",medicamentName, hour, minute);
+        String toastText = String.format("Alarm %s na godzine %02d:%02d został anulowany",medicament.getMedicamentName(), hour, minute);
         Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
         Log.i("cancel", toastText);
     }
@@ -315,11 +268,6 @@ public class Alarm implements Serializable {
 
         return days;
     }
-
-    public String getMedicamentName() {
-        return medicamentName;
-    }
-
     public long getCreated() {
         return created;
     }

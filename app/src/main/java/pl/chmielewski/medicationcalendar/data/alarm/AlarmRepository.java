@@ -13,7 +13,7 @@ public class AlarmRepository {
     public AlarmRepository(Application application) {
         AlarmDatabase db = AlarmDatabase.getDatabase(application);
         alarmDao = db.alarmDao();
-        alarmsLiveData = alarmDao.getAlarms();
+        alarmsLiveData = alarmDao.getAlarmsWithMedicamentsLiveData();
     }
 
     public void insert(Alarm alarm) {
@@ -28,7 +28,7 @@ public class AlarmRepository {
         });
     }
 
-    public LiveData<List<Alarm>> getAlarmsLiveData() {
+    public LiveData<List<Alarm>>getAlarmsWithMedicamentsLiveData() {
         return alarmsLiveData;
     }
 
