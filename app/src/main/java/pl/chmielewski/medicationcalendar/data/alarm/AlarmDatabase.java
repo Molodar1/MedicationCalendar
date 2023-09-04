@@ -25,7 +25,9 @@ public abstract class AlarmDatabase extends RoomDatabase {
                             context.getApplicationContext(),
                             AlarmDatabase.class,
                             "alarm_database"
-                    ).build();
+                    )
+                            .allowMainThreadQueries()
+                            .build();
                 }
             }
         }

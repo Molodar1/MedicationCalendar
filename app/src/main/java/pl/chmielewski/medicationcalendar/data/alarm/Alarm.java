@@ -230,12 +230,15 @@ public class Alarm implements Serializable {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmBroadcastReceiver.class);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(context, alarmId, intent, PendingIntent.FLAG_NO_CREATE | PendingIntent.FLAG_IMMUTABLE);
-        alarmManager.cancel(alarmPendingIntent);
-        this.started = false;
+        if (alarmPendingIntent != null) {
+            alarmManager.cancel(alarmPendingIntent);
+            this.started = false;
 
-        String toastText = String.format("Alarm %s na godzine %02d:%02d został anulowany",medicament.getMedicamentName(), hour, minute);
-        Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
-        Log.i("cancel", toastText);
+            String toastText = String.format("Alarm %s na godzine %02d:%02d został anulowany", medicament.getMedicamentName(), hour, minute);
+            Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
+            Log.i("cancel", toastText);
+        }
+        else Log.i("cancel", "AlarmPendingIntent is null, alarm may not have been scheduled.");
     }
 
     public String getRecurringDaysText() {

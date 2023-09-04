@@ -41,18 +41,6 @@ public class AlarmsListActivity extends AppCompatActivity implements OnToggleAla
                 }
             }
         });
-
-        binding.fragmentListalarmsAddAlarm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navigateToCreateAlarmActivity();
-            }
-        });
-    }
-
-    private void navigateToCreateAlarmActivity() {
-        Intent intent = new Intent(this, CreateAlarmActivity.class);
-        startActivity(intent);
     }
 
     @Override

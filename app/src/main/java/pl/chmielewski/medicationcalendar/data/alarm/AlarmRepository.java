@@ -21,6 +21,9 @@ public class AlarmRepository {
             alarmDao.insert(alarm);
         });
     }
+    public List<Alarm> getAlarmsWithMedicaments() {
+        return alarmDao.getAlarmsWithMedicaments();
+    }
 
     public void update(Alarm alarm) {
         AlarmDatabase.databaseWriteExecutor.execute(() -> {

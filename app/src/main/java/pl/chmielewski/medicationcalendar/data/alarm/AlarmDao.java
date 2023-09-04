@@ -20,6 +20,9 @@ public interface AlarmDao {
     @Transaction
     @Query("SELECT * FROM alarm_table ORDER BY created ASC")
     LiveData<List<Alarm>> getAlarmsWithMedicamentsLiveData();
+    @Transaction
+    @Query("SELECT * FROM alarm_table")
+    List<Alarm> getAlarmsWithMedicaments();
 
     @Update
     void update(Alarm alarm);

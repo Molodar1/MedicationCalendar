@@ -27,6 +27,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import pl.chmielewski.medicationcalendar.createalarm.CreateAlarmActivity;
+import pl.chmielewski.medicationcalendar.data.alarm.AlarmRepository;
 import pl.chmielewski.medicationcalendar.data.manuallyDeletedMedicament.ManuallyDeletedMedicament;
 import pl.chmielewski.medicationcalendar.data.manuallyDeletedMedicament.ManuallyDeletedMedicamentRepository;
 import pl.chmielewski.medicationcalendar.data.medicament.Medicament;
@@ -36,10 +37,12 @@ public class AdapterShow extends RecyclerView.Adapter<AdapterShow.myviewholder> 
     private List<Medicament> medicamentList;
     private MedicamentRepository medicamentRepository;
     private ManuallyDeletedMedicamentRepository manuallyDeletedMedicamentRepository;
+    private AlarmRepository alarmRepository;
 
     public AdapterShow(Application application) {
         medicamentRepository = new MedicamentRepository(application);
         manuallyDeletedMedicamentRepository = new ManuallyDeletedMedicamentRepository(application);
+        alarmRepository = new AlarmRepository(application);
         medicamentList = new ArrayList<>();
     }
 
@@ -129,7 +132,16 @@ public class AdapterShow extends RecyclerView.Adapter<AdapterShow.myviewholder> 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         ManuallyDeletedMedicament manuallyDeletedMedicament = new ManuallyDeletedMedicament();
-                        manuallyDeletedMedicament.setMedicamentId(medicament.getMedicamentId());
+                        String medicamentId=medicament.getMedicamentId();
+                        manuallyDeletedMedicament.setMedicamentId(medicamentId);
+                        alarmRepository.getAlarmsWithMedicaments()
+                                .forEach(alarm -> {
+                            if (alarm.getMedicament().getMedicamentId().equals(medicamentId)){
+                                alarm.cancelAlarm(view.getContext());
+                                alarmRepository.delete(alarm);
+                            }
+                        });
+                        manuallyDeletedMedicamentRepository.delete(manuallyDeletedMedicament);
                         manuallyDeletedMedicamentRepository.insert(manuallyDeletedMedicament);
                         medicamentRepository.delete(medicament);
                     }
