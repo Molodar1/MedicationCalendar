@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MedicationCalendar</string>
+    <string name="app_name">Medicaments Reminder</string>
     <string name="medicamentNameInput">Nazwa leku:</string>
     <string name="hintInsertMedicamentName">Podaj nazwę leku:</string>
     <string name="hintInsertMedicamentDose">Podaj dawkę leku:</string>

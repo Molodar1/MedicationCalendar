@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView createNewAccount,continueWithoutLogin;
     EditText inputEmail, inputPassword;
     Button btnLogin;
+    ImageView btnGoogle;
     ProgressDialog progressDialog;
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
@@ -36,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         inputEmail = findViewById(R.id.inputEmailLoginTextView);
         inputPassword = findViewById(R.id.inputPasswordTextView);
         btnLogin = findViewById(R.id.loginButton);
+        btnGoogle = findViewById(R.id.googleButton);
         progressDialog = new ProgressDialog(this);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -49,6 +52,16 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
+        btnGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Przenieś użytkownika do aktywności RecyclerShow
+               Intent intent=new Intent(LoginActivity.this,GoogleSignInActivity.class);
+               startActivity(intent);
+                finish();
+            }
+        });
+
         if (firebaseUser!=null){
             sendUserToNextActivity();
         }

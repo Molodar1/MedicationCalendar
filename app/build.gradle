@@ -83,7 +83,7 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
     androidTestImplementation "androidx.room:room-testing:$room_version"
 
-//    implementation 'com.jakewharton:butterknife:10.2.1'
-//    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+    implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
 
 }
