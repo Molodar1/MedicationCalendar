@@ -119,6 +119,7 @@ public class RecyclerShow extends AppCompatActivity
             }
         });
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationViewEmployee);
+        bottomNavigationView.setBackgroundColor(getResources().getColor(R.color.bottom_menu_color));
         Menu menu = bottomNavigationView.getMenu();
         MenuItem logoutItem = menu.findItem(R.id.action_logout);
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
