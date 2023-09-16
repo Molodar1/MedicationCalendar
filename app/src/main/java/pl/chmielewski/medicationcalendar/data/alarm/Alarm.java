@@ -2,16 +2,16 @@ package pl.chmielewski.medicationcalendar.data.alarm;
 
 
 
-import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ID;
-import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.FRIDAY;
+import static pl.chmielewski.medicationcalendar.broadcastReceiver.AlarmBroadcastReceiver.ALARM_ID;
+import static pl.chmielewski.medicationcalendar.broadcastReceiver.AlarmBroadcastReceiver.FRIDAY;
 
-import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MONDAY;
-import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.RECURRING;
-import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.SATURDAY;
-import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.SUNDAY;
-import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.THURSDAY;
-import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.TUESDAY;
-import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.WEDNESDAY;
+import static pl.chmielewski.medicationcalendar.broadcastReceiver.AlarmBroadcastReceiver.MONDAY;
+import static pl.chmielewski.medicationcalendar.broadcastReceiver.AlarmBroadcastReceiver.RECURRING;
+import static pl.chmielewski.medicationcalendar.broadcastReceiver.AlarmBroadcastReceiver.SATURDAY;
+import static pl.chmielewski.medicationcalendar.broadcastReceiver.AlarmBroadcastReceiver.SUNDAY;
+import static pl.chmielewski.medicationcalendar.broadcastReceiver.AlarmBroadcastReceiver.THURSDAY;
+import static pl.chmielewski.medicationcalendar.broadcastReceiver.AlarmBroadcastReceiver.TUESDAY;
+import static pl.chmielewski.medicationcalendar.broadcastReceiver.AlarmBroadcastReceiver.WEDNESDAY;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -30,7 +30,7 @@ import androidx.room.PrimaryKey;
 import java.io.Serializable;
 import java.util.Calendar;
 
-import pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver;
+import pl.chmielewski.medicationcalendar.broadcastReceiver.AlarmBroadcastReceiver;
 import pl.chmielewski.medicationcalendar.data.medicament.Medicament;
 
 @Entity(tableName = "alarm_table")

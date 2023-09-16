@@ -1,4 +1,4 @@
-package pl.chmielewski.medicationcalendar.alarmslist;
+package pl.chmielewski.medicationcalendar.alarmsList;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,10 +7,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-
 import java.util.ArrayList;
 import java.util.List;
+
 import pl.chmielewski.medicationcalendar.R;
 import pl.chmielewski.medicationcalendar.data.alarm.Alarm;
 
@@ -20,17 +19,17 @@ public class AlarmRecyclerViewAdapter extends RecyclerView.Adapter<AlarmViewHold
     private OnToggleAlarmListener listener;
     private OnDeleteAlarmListener deleteListener;
 
-    public AlarmRecyclerViewAdapter(OnToggleAlarmListener listener,OnDeleteAlarmListener deleteListener) {
+    public AlarmRecyclerViewAdapter(OnToggleAlarmListener listener, OnDeleteAlarmListener deleteListener) {
         this.alarms = new ArrayList<Alarm>();
         this.listener = listener;
-        this.deleteListener=deleteListener;
+        this.deleteListener = deleteListener;
     }
 
     @NonNull
     @Override
     public AlarmViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_alarm, parent, false);
-        return new AlarmViewHolder(itemView, listener,deleteListener);
+        return new AlarmViewHolder(itemView, listener, deleteListener);
     }
 
     @Override

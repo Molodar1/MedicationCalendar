@@ -1,4 +1,4 @@
-package pl.chmielewski.medicationcalendar.createalarm;
+package pl.chmielewski.medicationcalendar.createAlarm;
 
 import android.app.Application;
 

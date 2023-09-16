@@ -1,4 +1,4 @@
-package pl.chmielewski.medicationcalendar.broadcastreceiver;
+package pl.chmielewski.medicationcalendar.broadcastReceiver;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -32,21 +32,20 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
             String toastText = String.format("Alarm Reboot");
             Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
             startRescheduleAlarmsService(context);
-        }
-        else {
+        } else {
             String toastText = String.format("Alarm Received");
             Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
             if (!intent.getBooleanExtra(RECURRING, false)) {
                 startAlarmService(context, intent);
-            }else {
+            } else {
 
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(System.currentTimeMillis());
                 calendar.add(Calendar.DAY_OF_MONTH, 1);
 
-                 int alarmId=intent.getIntExtra(ALARM_ID,0);
+                int alarmId = intent.getIntExtra(ALARM_ID, 0);
 
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarmId, intent, PendingIntent.FLAG_IMMUTABLE|PendingIntent.FLAG_NO_CREATE);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, alarmId, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_NO_CREATE);
                 AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     if (alarmManager.canScheduleExactAlarms()) {
@@ -72,7 +71,7 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
         calendar.setTimeInMillis(System.currentTimeMillis());
         int today = calendar.get(Calendar.DAY_OF_WEEK);
 
-        switch(today) {
+        switch (today) {
             case Calendar.MONDAY:
                 if (intent.getBooleanExtra(MONDAY, false))
                     return true;
@@ -108,10 +107,10 @@ public class AlarmBroadcastReceiver extends BroadcastReceiver {
     private void startAlarmService(Context context, Intent intent) {
         Intent intentService = new Intent(context, AlarmService.class);
         Alarm alarm = (Alarm) intent.getSerializableExtra("ALARM_OBJECT");
-        Medicament medicament= (Medicament) intent.getSerializableExtra("MEDICAMENT_OBJECT");
-        intentService.putExtra(ALARM_ID, intent.getIntExtra(ALARM_ID,0));
-        intentService.putExtra("ALARM_OBJECT",alarm);
-        intentService.putExtra("MEDICAMENT_OBJECT",medicament);
+        Medicament medicament = (Medicament) intent.getSerializableExtra("MEDICAMENT_OBJECT");
+        intentService.putExtra(ALARM_ID, intent.getIntExtra(ALARM_ID, 0));
+        intentService.putExtra("ALARM_OBJECT", alarm);
+        intentService.putExtra("MEDICAMENT_OBJECT", medicament);
         context.startForegroundService(intentService);
     }
 

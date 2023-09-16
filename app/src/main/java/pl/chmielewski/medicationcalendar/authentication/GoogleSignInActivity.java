@@ -1,12 +1,11 @@
-package pl.chmielewski.medicationcalendar;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+package pl.chmielewski.medicationcalendar.authentication;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -21,14 +20,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import pl.chmielewski.medicationcalendar.R;
+import pl.chmielewski.medicationcalendar.medicamentsList.RecyclerViewActivity;
+
 public class GoogleSignInActivity extends LoginActivity {
 
 
     private static final int RC_SIGN_IN = 101;
-    GoogleSignInClient mGoogleSignInClient;
-    FirebaseAuth mAuth;
-    FirebaseUser mUser;
-    ProgressDialog progressDialog;
+    private GoogleSignInClient mGoogleSignInClient;
+    private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +88,7 @@ public class GoogleSignInActivity extends LoginActivity {
     }
 
     private void updateUI(FirebaseUser user) {
-        Intent intent = new Intent(GoogleSignInActivity.this, RecyclerShow.class);
+        Intent intent = new Intent(GoogleSignInActivity.this, RecyclerViewActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }

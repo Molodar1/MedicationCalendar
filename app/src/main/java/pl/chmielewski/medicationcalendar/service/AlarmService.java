@@ -2,7 +2,7 @@ package pl.chmielewski.medicationcalendar.service;
 
 
 import static pl.chmielewski.medicationcalendar.application.App.CHANNEL_ID;
-import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ID;
+import static pl.chmielewski.medicationcalendar.broadcastReceiver.AlarmBroadcastReceiver.ALARM_ID;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -18,7 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import pl.chmielewski.medicationcalendar.R;
-import pl.chmielewski.medicationcalendar.activities.RingActivity;
+import pl.chmielewski.medicationcalendar.ring.RingActivity;
 import pl.chmielewski.medicationcalendar.data.alarm.Alarm;
 import pl.chmielewski.medicationcalendar.data.alarm.AlarmRepository;
 import pl.chmielewski.medicationcalendar.data.medicament.Medicament;
@@ -46,7 +46,9 @@ public class AlarmService extends Service {
         Medicament medicament =(Medicament) intent.getSerializableExtra("MEDICAMENT_OBJECT");
         alarmId=intent.getIntExtra(ALARM_ID,0);
         String alarmTitle = String.format("%s Alarm", medicament.getMedicamentName());
-        String alarmText = String.format("Nazwa leku: %s \nDawka leku: %s\nDodatkowe informacje: %s\n",medicament.getMedicamentName(), medicament.getMedicamentDose(),medicament.getMedicamentAdditionalInfo());
+        String alarmText = String.format("Dawka leku: %s\nDodatkowe informacje: %s\n",
+                medicament.getMedicamentDose()
+                ,medicament.getMedicamentAdditionalInfo());
 
         Intent notificationIntent = new Intent(this, RingActivity.class);
         notificationIntent.putExtra("alarmText",alarmText);

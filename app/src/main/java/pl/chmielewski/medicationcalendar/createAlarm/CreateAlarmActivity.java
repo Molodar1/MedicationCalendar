@@ -1,4 +1,4 @@
-package pl.chmielewski.medicationcalendar.createalarm;
+package pl.chmielewski.medicationcalendar.createAlarm;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,9 +15,9 @@ import androidx.lifecycle.ViewModelProviders;
 
 import java.util.Random;
 
-import pl.chmielewski.medicationcalendar.data.medicament.Medicament;
-import pl.chmielewski.medicationcalendar.RecyclerShow;
+import pl.chmielewski.medicationcalendar.medicamentsList.RecyclerViewActivity;
 import pl.chmielewski.medicationcalendar.data.alarm.Alarm;
+import pl.chmielewski.medicationcalendar.data.medicament.Medicament;
 import pl.chmielewski.medicationcalendar.databinding.ActivityCreateAlarmBinding;
 
 public class CreateAlarmActivity extends AppCompatActivity {
@@ -25,8 +25,6 @@ public class CreateAlarmActivity extends AppCompatActivity {
     private ActivityCreateAlarmBinding binding;
     private CreateAlarmViewModel createAlarmViewModel;
     private Medicament medicamentFromIntent;
-    private String medicamentFromIntentKey;
-    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +37,10 @@ public class CreateAlarmActivity extends AppCompatActivity {
         // Inicjalizacja widoków
         TimePicker timePicker = binding.fragmentCreatealarmTimePicker;
         binding.fragmentCreatealarmTimePicker.setIs24HourView(true);
-        EditText medicamentName = binding.fragmentCreatealarmTitle;
-        EditText medicamentDose= binding.fragmentCreatealarmDose;
-        EditText medicamentNumberOfDoses= binding.fragmentCreatealarmNumberOfDoses;
-        EditText medicamentAdditionalInfo = binding.fragmentCreatealarmAdditionalInfo;
+        TextView medicamentName = binding.fragmentCreatealarmTitle;
+        TextView medicamentDose = binding.fragmentCreatealarmDose;
+        TextView medicamentNumberOfDoses = binding.fragmentCreatealarmNumberOfDoses;
+        TextView medicamentAdditionalInfo = binding.fragmentCreatealarmAdditionalInfo;
         Button scheduleAlarm = binding.fragmentCreatealarmScheduleAlarm;
         CheckBox recurring = binding.fragmentCreatealarmRecurring;
         LinearLayout recurringOptions = binding.fragmentCreatealarmRecurringOptions;
@@ -69,23 +67,23 @@ public class CreateAlarmActivity extends AppCompatActivity {
         medicamentFromIntent = (Medicament) intent.getSerializableExtra("medicament");
 
         if (medicamentFromIntent != null) {
-            String medicamentFromIntentName,medicamentFromIntentDose,medicamentFromIntentAdditionalInfo;
+            String medicamentFromIntentName, medicamentFromIntentDose, medicamentFromIntentAdditionalInfo;
             int medicamentFromIntentNumberOfDoses;
-            medicamentFromIntentName=medicamentFromIntent.getMedicamentName();
-            medicamentFromIntentDose=medicamentFromIntent.getMedicamentDose();
-            medicamentFromIntentAdditionalInfo=medicamentFromIntent.getMedicamentAdditionalInfo();
-            medicamentFromIntentNumberOfDoses=medicamentFromIntent.getMedicamentNumberOfDoses();
+            medicamentFromIntentName = medicamentFromIntent.getMedicamentName();
+            medicamentFromIntentDose = medicamentFromIntent.getMedicamentDose();
+            medicamentFromIntentAdditionalInfo = medicamentFromIntent.getMedicamentAdditionalInfo();
+            medicamentFromIntentNumberOfDoses = medicamentFromIntent.getMedicamentNumberOfDoses();
 
-            if (medicamentFromIntentName!=null){
-                medicamentName.setText(medicamentFromIntent.getMedicamentName());
+            if (medicamentFromIntentName != null) {
+                medicamentName.setText("Nazwa leku: " + medicamentFromIntent.getMedicamentName());
             }
-            if (medicamentFromIntentDose!=null) {
-                medicamentDose.setText(medicamentFromIntent.getMedicamentDose());
+            if (medicamentFromIntentDose != null) {
+                medicamentDose.setText("Dawka leku: " + medicamentFromIntent.getMedicamentDose());
             }
-            if (medicamentFromIntentAdditionalInfo!=null) {
-                medicamentAdditionalInfo.setText(medicamentFromIntent.getMedicamentAdditionalInfo());
+            if (medicamentFromIntentAdditionalInfo != null) {
+                medicamentAdditionalInfo.setText("Dodatkowe informacje: " + medicamentFromIntent.getMedicamentAdditionalInfo());
             }
-            medicamentNumberOfDoses.setText(String.valueOf(medicamentFromIntentNumberOfDoses));
+            medicamentNumberOfDoses.setText("Pozostała liczba dawek: " + String.valueOf(medicamentFromIntentNumberOfDoses));
 
         }
     }
@@ -116,7 +114,7 @@ public class CreateAlarmActivity extends AppCompatActivity {
     }
 
     private void navigateToAlarmsListActivity() {
-        Intent intent = new Intent(this, RecyclerShow.class);
+        Intent intent = new Intent(this, RecyclerViewActivity.class);
         startActivity(intent);
         finish();
     }

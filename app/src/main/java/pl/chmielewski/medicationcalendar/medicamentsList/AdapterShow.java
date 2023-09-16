@@ -1,6 +1,4 @@
-package pl.chmielewski.medicationcalendar;
-
-import static java.lang.Integer.parseInt;
+package pl.chmielewski.medicationcalendar.medicamentsList;
 
 import android.app.AlertDialog;
 import android.app.Application;
@@ -26,14 +24,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import pl.chmielewski.medicationcalendar.createalarm.CreateAlarmActivity;
+import pl.chmielewski.medicationcalendar.R;
+import pl.chmielewski.medicationcalendar.createAlarm.CreateAlarmActivity;
 import pl.chmielewski.medicationcalendar.data.alarm.AlarmRepository;
 import pl.chmielewski.medicationcalendar.data.manuallyDeletedMedicament.ManuallyDeletedMedicament;
 import pl.chmielewski.medicationcalendar.data.manuallyDeletedMedicament.ManuallyDeletedMedicamentRepository;
 import pl.chmielewski.medicationcalendar.data.medicament.Medicament;
 import pl.chmielewski.medicationcalendar.data.medicament.MedicamentRepository;
 
-public class AdapterShow extends RecyclerView.Adapter<AdapterShow.myviewholder> {
+public class AdapterShow extends RecyclerView.Adapter<AdapterShow.MedicamentViewHolder> {
     private List<Medicament> medicamentList;
     private MedicamentRepository medicamentRepository;
     private ManuallyDeletedMedicamentRepository manuallyDeletedMedicamentRepository;
@@ -53,13 +52,13 @@ public class AdapterShow extends RecyclerView.Adapter<AdapterShow.myviewholder> 
 
     @NonNull
     @Override
-    public myviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MedicamentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.singlerow, parent, false);
-        return new myviewholder(view);
+        return new MedicamentViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull myviewholder holder, int position) {
+    public void onBindViewHolder(@NonNull MedicamentViewHolder holder, int position) {
         Medicament medicament = medicamentList.get(position);
         holder.name.setText(medicament.getMedicamentName());
         holder.dose.setText(medicament.getMedicamentDose());
@@ -132,15 +131,15 @@ public class AdapterShow extends RecyclerView.Adapter<AdapterShow.myviewholder> 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         ManuallyDeletedMedicament manuallyDeletedMedicament = new ManuallyDeletedMedicament();
-                        String medicamentId=medicament.getMedicamentId();
+                        String medicamentId = medicament.getMedicamentId();
                         manuallyDeletedMedicament.setMedicamentId(medicamentId);
                         alarmRepository.getAlarmsWithMedicaments()
                                 .forEach(alarm -> {
-                            if (alarm.getMedicament().getMedicamentId().equals(medicamentId)){
-                                alarm.cancelAlarm(view.getContext());
-                                alarmRepository.delete(alarm);
-                            }
-                        });
+                                    if (alarm.getMedicament().getMedicamentId().equals(medicamentId)) {
+                                        alarm.cancelAlarm(view.getContext());
+                                        alarmRepository.delete(alarm);
+                                    }
+                                });
                         manuallyDeletedMedicamentRepository.delete(manuallyDeletedMedicament);
                         manuallyDeletedMedicamentRepository.insert(manuallyDeletedMedicament);
                         medicamentRepository.delete(medicament);
@@ -173,12 +172,12 @@ public class AdapterShow extends RecyclerView.Adapter<AdapterShow.myviewholder> 
         return medicamentList.size();
     }
 
-    static class myviewholder extends RecyclerView.ViewHolder {
+    static class MedicamentViewHolder extends RecyclerView.ViewHolder {
         CircleImageView img;
         ImageView edit, delete, setNotification;
         TextView name, dose, numberOfDoses, additionalInfo;
 
-        public myviewholder(@NonNull View itemView) {
+        public MedicamentViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.txtvMedicamentName);
             dose = itemView.findViewById(R.id.txtvMedicamentDose);
@@ -186,7 +185,7 @@ public class AdapterShow extends RecyclerView.Adapter<AdapterShow.myviewholder> 
             additionalInfo = itemView.findViewById(R.id.txtvAdditionalInfo);
             edit = itemView.findViewById(R.id.btnEdit);
             delete = itemView.findViewById(R.id.btnDelete);
-            setNotification = itemView.findViewById(R.id.btnBuy);
+            setNotification = itemView.findViewById(R.id.btnSetNotification);
         }
     }
 }

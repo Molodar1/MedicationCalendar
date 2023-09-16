@@ -1,4 +1,4 @@
-package pl.chmielewski.medicationcalendar.alarmslist;
+package pl.chmielewski.medicationcalendar.alarmsList;
 
 import android.view.View;
 import android.widget.CompoundButton;
@@ -26,18 +26,18 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
     private OnToggleAlarmListener listener;
     private OnDeleteAlarmListener deleteListener;
 
-    public AlarmViewHolder(@NonNull View itemView, OnToggleAlarmListener listener,OnDeleteAlarmListener deleteListener) {
+    public AlarmViewHolder(@NonNull View itemView, OnToggleAlarmListener listener, OnDeleteAlarmListener deleteListener) {
         super(itemView);
 
         alarmTime = itemView.findViewById(R.id.item_alarm_time);
         alarmStarted = itemView.findViewById(R.id.item_alarm_started);
-        deleteAlarm=itemView.findViewById(R.id.item_alarm_delete);
+        deleteAlarm = itemView.findViewById(R.id.item_alarm_delete);
         alarmRecurring = itemView.findViewById(R.id.item_alarm_recurring);
         alarmRecurringDays = itemView.findViewById(R.id.item_alarm_recurringDays);
         alarmTitle = itemView.findViewById(R.id.item_alarm_title);
 
         this.listener = listener;
-        this.deleteListener=deleteListener;
+        this.deleteListener = deleteListener;
     }
 
     public void bind(Alarm alarm) {
@@ -55,7 +55,7 @@ public class AlarmViewHolder extends RecyclerView.ViewHolder {
         }
 
         if (alarm.getMedicament().getMedicamentName().length() != 0) {
-            alarmTitle.setText(String.format("%s\nDawka leku: %s", alarm.getMedicament().getMedicamentName(),alarm.getMedicament().getMedicamentDose()));
+            alarmTitle.setText(String.format("%s\nDawka leku: %s", alarm.getMedicament().getMedicamentName(), alarm.getMedicament().getMedicamentDose()));
         } else {
             alarmTitle.setText(String.format("%s | %d", "Alarm", alarm.getAlarmId()));
         }

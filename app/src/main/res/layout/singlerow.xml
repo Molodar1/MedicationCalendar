@@ -139,9 +139,9 @@
                     android:src="@drawable/ic_delete2" />
 
                 <ImageView
-                    android:id="@+id/btnBuy"
+                    android:id="@+id/btnSetNotification"
                     android:layout_width="110dp"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:src="@drawable/ic_alarm_black_24dp" />
             </LinearLayout>
 

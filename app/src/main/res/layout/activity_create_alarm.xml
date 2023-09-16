@@ -55,36 +55,35 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_createalarm_timePickerLayout"
             android:orientation="vertical">
-        <EditText
+        <TextView
             android:id="@+id/fragment_createalarm_title"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:hint="@string/txt_set_alarm_title"
+            android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-        <EditText
+        <TextView
             android:id="@+id/fragment_createalarm_dose"
             android:layout_width="match_parent"
            android:layout_height="48dp"
-            android:hint="@string/txt_input_dose"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fragment_createalarm_title" />
-            <EditText
+            <TextView
                 android:id="@+id/fragment_createalarm_number_of_doses"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:hint="@string/txt_input_medicament_number_of_doses"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fragment_createalarm_dose" />
 
-            <EditText
+            <TextView
             android:id="@+id/fragment_createalarm_additionalInfo"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="@string/txt_input_additional_info"
+            android:layout_height="48dp" android:textSize="15sp"
             android:layout_marginBottom="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -1,21 +1,18 @@
-package pl.chmielewski.medicationcalendar.alarmslist;
+package pl.chmielewski.medicationcalendar.alarmsList;
+
+import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-
 import java.util.List;
 
-import pl.chmielewski.medicationcalendar.createalarm.CreateAlarmActivity;
 import pl.chmielewski.medicationcalendar.data.alarm.Alarm;
 import pl.chmielewski.medicationcalendar.databinding.ActivityAlarmsListBinding;
 
-public class AlarmsListActivity extends AppCompatActivity implements OnToggleAlarmListener,OnDeleteAlarmListener{
+public class AlarmsListActivity extends AppCompatActivity implements OnToggleAlarmListener, OnDeleteAlarmListener {
 
     private ActivityAlarmsListBinding binding;
     private AlarmsListViewModel alarmsListViewModel;
@@ -28,7 +25,7 @@ public class AlarmsListActivity extends AppCompatActivity implements OnToggleAla
         setContentView(binding.getRoot());
 
         alarmsListViewModel = ViewModelProviders.of(this).get(AlarmsListViewModel.class);
-        alarmRecyclerViewAdapter = new AlarmRecyclerViewAdapter(this,this);
+        alarmRecyclerViewAdapter = new AlarmRecyclerViewAdapter(this, this);
 
         binding.fragmentListalarmsRecylerView.setLayoutManager(new LinearLayoutManager(this));
         binding.fragmentListalarmsRecylerView.setAdapter(alarmRecyclerViewAdapter);
@@ -56,12 +53,12 @@ public class AlarmsListActivity extends AppCompatActivity implements OnToggleAla
 
     @Override
     public void onDelete(Alarm alarm) {
-       if (alarm.isStarted()){
-           alarm.cancelAlarm(getApplicationContext());
-           alarmsListViewModel.delete(alarm);
-       }else {
-           alarmsListViewModel.delete(alarm);
-       }
+        if (alarm.isStarted()) {
+            alarm.cancelAlarm(getApplicationContext());
+            alarmsListViewModel.delete(alarm);
+        } else {
+            alarmsListViewModel.delete(alarm);
+        }
 
     }
 }
