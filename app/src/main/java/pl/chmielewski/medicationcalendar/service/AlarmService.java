@@ -46,7 +46,8 @@ public class AlarmService extends Service {
         Medicament medicament =(Medicament) intent.getSerializableExtra("MEDICAMENT_OBJECT");
         alarmId=intent.getIntExtra(ALARM_ID,0);
         String alarmTitle = String.format("%s Alarm", medicament.getMedicamentName());
-        String alarmText = String.format("Dawka leku: %s\nDodatkowe informacje: %s\n",
+        String alarmText = String.format("Nazwa leku: %s\nDawka leku: %s\nDodatkowe informacje: %s\n",
+                medicament.getMedicamentName(),
                 medicament.getMedicamentDose()
                 ,medicament.getMedicamentAdditionalInfo());
 

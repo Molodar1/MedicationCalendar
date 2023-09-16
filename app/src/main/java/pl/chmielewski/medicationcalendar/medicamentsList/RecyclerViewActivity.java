@@ -162,15 +162,17 @@ public class RecyclerViewActivity extends AppCompatActivity {
             }
 
             private void filterList(String query) {
-                List<Medicament> filteredList = new ArrayList<>();
-
-                for (Medicament medicament : Objects.requireNonNull(medicamentRepository.getMedicamentsLiveData().getValue())) {
-                    if (medicament.getMedicamentName().toLowerCase().contains(query.toLowerCase())) {
-                        filteredList.add(medicament);
+                List<Medicament> medicaments = medicamentRepository.getMedicamentsLiveData().getValue();
+                if (medicaments != null) {
+                    List<Medicament> filteredList = new ArrayList<>();
+                    for (Medicament medicament : medicamentRepository.getMedicamentsLiveData().getValue()) {
+                        if (medicament.getMedicamentName().toLowerCase().contains(query.toLowerCase())) {
+                            filteredList.add(medicament);
+                        }
                     }
-                }
 
-                adapter.setMedicamentList(filteredList);
+                    adapter.setMedicamentList(filteredList);
+                }
             }
         });
         adapter = new AdapterShow(getApplication());
