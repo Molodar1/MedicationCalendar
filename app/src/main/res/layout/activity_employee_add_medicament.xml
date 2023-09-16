@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".medicamentsList.AddMedicament"
+    android:background="@drawable/medical_background">
+
+    <!--EditText for adding employee name-->
+    <EditText
+        android:id="@+id/editTextInputMedicamentName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:hint="@string/inputMedicamentNameText"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:minWidth="10dp"
+        android:minHeight="48dp" />
+
+    <!--EditText for adding employee phone-->
+    <EditText
+        android:id="@+id/editTextInputMedicamentDose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextInputMedicamentName"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:hint="@string/insertMedicamentDose"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:scaleType="center"
+        />
+    <EditText
+        android:id="@+id/editTextInputMedicamentNumberOfDoses"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextInputMedicamentDose"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:hint="@string/txt_input_medicament_number_of_doses"
+        android:importantForAutofill="no"
+        android:inputType="numberDecimal"
+        android:minHeight="48dp"
+        android:scaleType="center"
+        />
+
+    <!--Button for adding data to Firebase-->
+    <EditText
+        android:id="@+id/editTextInputMedicamentAdditionalInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/editTextInputMedicamentNumberOfDoses"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:hint="@string/input_additional_info"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:minWidth="10dp"
+        android:minHeight="48dp" />
+
+    <Button
+        android:id="@+id/btnSendMedicamentToFirebase"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextInputMedicamentAdditionalInfo"
+        android:layout_margin="10dp"
+        android:layout_marginTop="121dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/add_medicament_to_db_btn_text"
+        android:textAllCaps="false" />
+    <Button
+        android:id="@+id/btnCancelSubmitingMedicament"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnSendMedicamentToFirebase"
+        android:layout_margin="10dp"
+        android:layout_marginTop="121dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/return_btn_text"
+        android:textAllCaps="false" />
+
+</RelativeLayout>
