@@ -2,10 +2,7 @@ package pl.chmielewski.medicationcalendar.service;
 
 
 import static pl.chmielewski.medicationcalendar.application.App.CHANNEL_ID;
-import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.ALARM_ID;
-import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_ADDITIONAL_INFO;
-import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_DOSE;
-import static pl.chmielewski.medicationcalendar.broadcastreceiver.AlarmBroadcastReceiver.MEDICAMENT_NAME;
+import static pl.chmielewski.medicationcalendar.broadcastReceiver.AlarmBroadcastReceiver.ALARM_ID;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -20,14 +17,11 @@ import android.os.Vibrator;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import pl.chmielewski.medicationcalendar.R;
-import pl.chmielewski.medicationcalendar.activities.RingActivity;
-import pl.chmielewski.medicationcalendar.data.Alarm;
-import pl.chmielewski.medicationcalendar.data.AlarmDao;
-import pl.chmielewski.medicationcalendar.data.AlarmRepository;
+import pl.chmielewski.medicationcalendar.ring.RingActivity;
+import pl.chmielewski.medicationcalendar.data.alarm.Alarm;
+import pl.chmielewski.medicationcalendar.data.alarm.AlarmRepository;
+import pl.chmielewski.medicationcalendar.data.medicament.Medicament;
 
 public class AlarmService extends Service {
     private MediaPlayer mediaPlayer;
@@ -49,11 +43,17 @@ public class AlarmService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Alarm alarm =(Alarm) intent.getSerializableExtra("ALARM_OBJECT");
-        String alarmTitle = String.format("%s Alarm", intent.getStringExtra(MEDICAMENT_NAME));
-        String alarmText = String.format("Nazwa leku: %s \nDawka leku: %s\nDodatkowe informacje: %s\n",intent.getStringExtra(MEDICAMENT_NAME), intent.getStringExtra(MEDICAMENT_DOSE),intent.getStringExtra(MEDICAMENT_ADDITIONAL_INFO));
+        Medicament medicament =(Medicament) intent.getSerializableExtra("MEDICAMENT_OBJECT");
+        alarmId=intent.getIntExtra(ALARM_ID,0);
+        String alarmTitle = String.format("%s Alarm", medicament.getMedicamentName());
+        String alarmText = String.format("Dawka leku: %s\nDodatkowe informacje: %s\n",
+                medicament.getMedicamentDose()
+                ,medicament.getMedicamentAdditionalInfo());
 
         Intent notificationIntent = new Intent(this, RingActivity.class);
         notificationIntent.putExtra("alarmText",alarmText);
+        notificationIntent.putExtra("MEDICAMENT_OBJECT",medicament);
+        notificationIntent.putExtra("ALARM_OBJECT",alarm);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
 
@@ -68,7 +68,7 @@ public class AlarmService extends Service {
                 .build();
         startForeground(1, notification);
 
-            if (alarm != null) {
+            if (alarmId != 0 && alarm!=null) {
                 alarm.setStarted(false);
                 alarmRepository.update(alarm);
 

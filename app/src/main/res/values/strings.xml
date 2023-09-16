@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MedicationCalendar</string>
+    <string name="app_name">Medicaments Reminder</string>
     <string name="medicamentNameInput">Nazwa leku:</string>
     <string name="hintInsertMedicamentName">Podaj nazwę leku:</string>
     <string name="hintInsertMedicamentDose">Podaj dawkę leku:</string>
@@ -190,4 +190,6 @@
     <string name="txt_add_alarm">Dodaj Alarm</string>
     <string name="txt_input_dose">Podaj dawkę leku</string>
     <string name="txt_input_additional_info">Podaj dodatkowe informacje</string>
+    <string name="txt_input_medicament_number_of_doses">Podaj liczbę dawek w opakowaniu</string>
+    <string name="continue_without_login">Kontynuuj bez logowania</string>
 </resources>

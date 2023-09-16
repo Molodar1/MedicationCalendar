@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegistrationActivity"
+    tools:context=".authentication.RegistrationActivity"
     android:background="@drawable/medical_background">
 
 
@@ -111,7 +111,7 @@
           android:layout_marginTop="32dp"
           android:background="@drawable/input_bg"
           android:text="@string/register"
-          android:textColor="@color/main_color"
+          android:textColor="#FF02126C"
           android:textStyle="bold"
           app:layout_constraintEnd_toEndOf="@+id/inputConfirmationPasswordTextView"
           app:layout_constraintStart_toStartOf="@+id/inputPasswordTextView"
