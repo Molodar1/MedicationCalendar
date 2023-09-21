@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "526019566736",
+    "project_id": "medicationcalendar-964ad",
+    "storage_bucket": "medicationcalendar-964ad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:526019566736:android:26eb25f9c66dd1242ccc15",
+        "android_client_info": {
+          "package_name": "pl.chmielewski.medicationcalendar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "526019566736-rmienfd3bv9gqv9nvl1j54244g58ms99.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBft7p1PDcet_Mhx_0gmWRemSQQ88otR-w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "526019566736-rmienfd3bv9gqv9nvl1j54244g58ms99.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
